@@ -4,6 +4,8 @@ html, body, main {
   margin: 0;
   text-align: center;
   text-transform: uppercase;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, sans-serif;
+  background-color: #aacde2;
 }
 
 main {
@@ -34,6 +36,11 @@ main {
   position: absolute;
   bottom: 0;
   right: 0;
+  color: white;
+}
+
+.initials p {
+  border-color: white;
 }
 
 .border-bottom {
