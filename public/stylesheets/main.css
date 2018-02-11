@@ -60,7 +60,8 @@ p.small {
 .corner-box {
   position: absolute;
   margin: 20px;
-  font-size: 24px;
+  font-size: 28px;
+  z-index: 1;
 }
 
 .corner-box p {
@@ -90,13 +91,24 @@ p.small {
 
 .grass {
   /* display: block; */
-  background: url("../grass.svg") top center;
-  background-size: 150%;
+  background-image: url("/images/grass.svg");
+  background-repeat: repeat-x;
+  background-size: contain;
+  background-position: bottom;
   position: fixed;
   bottom: 0;
   left: 0;
   height: 100px;
-  width: 100%;
+  width: 200%;
+}
+
+.pinecone {
+  height: 110px;
+  margin: 15px 0;
+}
+
+.flip {
+  transform: rotate(180deg);
 }
 
 /* MOBILE */
@@ -104,5 +116,9 @@ p.small {
 @media (max-width: 640px) {
   .corner-box {
     font-size: 22px;
+  }
+
+  .pinecone {
+    height: 80px;
   }
 }
