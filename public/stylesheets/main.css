@@ -48,6 +48,7 @@ p.small {
   font-weight: 100;
   margin: 15px 0;
   line-height: 1.2;
+  padding: 0 15px;
 }
 
 .centered-container {
@@ -109,16 +110,49 @@ p.small {
 
 .flip {
   transform: rotate(180deg);
+  /* display: none; */
 }
 
 /* MOBILE */
 
-@media (max-width: 640px) {
+/* @media (max-width: 640px) {
   .corner-box {
     font-size: 22px;
   }
 
+  p.small {
+    font-size: 26px;
+  }
+
   .pinecone {
     height: 80px;
+  }
+}
+ */
+
+@media (max-width: 640px) {
+  .grass {
+    height: 70px;
+  }
+
+  .name {
+    font-size: 38px;
+  }
+
+  p.small {
+    font-size: 22px;
+  }
+
+  p.sub {
+    font-size: 20px;
+  }
+
+  .corner-box {
+    font-size: 18px;
+    margin: 15px;
+  }
+
+  .pinecone {
+    height: 70px;
   }
 }
