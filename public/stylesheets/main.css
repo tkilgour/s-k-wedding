@@ -8,7 +8,9 @@
   src: url("../Gill Sans Nova Inline.otf") format("opentype");
 }
 
-html, body, main {
+html,
+body,
+main {
   height: 100%;
   padding: 0;
   margin: 0;
@@ -28,7 +30,7 @@ main {
   height: 100%;
 }
 
-p.sub{
+p.sub {
   font-size: 24px;
   margin: 0;
   letter-spacing: 3px;
@@ -45,6 +47,7 @@ p.small {
   font-size: 48px;
   font-weight: 100;
   margin: 15px 0;
+  line-height: 1.2;
 }
 
 .centered-container {
@@ -83,4 +86,23 @@ p.small {
 
 .border-bottom {
   border-bottom: black solid 1px;
+}
+
+.grass {
+  /* display: block; */
+  background: url("../grass.svg") top center;
+  background-size: 150%;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  height: 100px;
+  width: 100%;
+}
+
+/* MOBILE */
+
+@media (max-width: 640px) {
+  .corner-box {
+    font-size: 22px;
+  }
 }
