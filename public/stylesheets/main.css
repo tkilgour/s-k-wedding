@@ -1,3 +1,13 @@
+@font-face {
+  font-family: GillSans-LightSC;
+  src: url("../GillSans-LightSC.otf") format("opentype");
+}
+
+@font-face {
+  font-family: Gill Sans Nova Inline;
+  src: url("../Gill Sans Nova Inline.otf") format("opentype");
+}
+
 html, body, main {
   height: 100%;
   padding: 0;
@@ -5,7 +15,10 @@ html, body, main {
   text-align: center;
   text-transform: uppercase;
   font-family: "Gill Sans", "Gill Sans MT", Calibri, sans-serif;
-  background-color: #aacde2;
+  font-weight: 100;
+  background-color: #aacee3;
+  color: #6b8ca5;
+  border-color: #6b8ca5;
 }
 
 main {
@@ -13,6 +26,25 @@ main {
   max-width: 800px;
   margin: 0 auto;
   height: 100%;
+}
+
+p.sub{
+  font-size: 24px;
+  margin: 0;
+  letter-spacing: 3px;
+}
+
+p.small {
+  font-family: "GillSans-LightSC";
+  font-size: 32px;
+}
+
+.name {
+  font-family: "Gill Sans Nova Inline";
+  color: white;
+  font-size: 48px;
+  font-weight: 100;
+  margin: 15px 0;
 }
 
 .centered-container {
@@ -25,6 +57,7 @@ main {
 .corner-box {
   position: absolute;
   margin: 20px;
+  font-size: 24px;
 }
 
 .corner-box p {
@@ -37,6 +70,11 @@ main {
   bottom: 0;
   right: 0;
   color: white;
+  letter-spacing: 2px;
+}
+
+.date p {
+  border-color: #6b8ca5;
 }
 
 .initials p {
