@@ -7,7 +7,7 @@
   },
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
+    "start": "nodemon index.js",
     "test": "node test.js"
   },
   "dependencies": {
@@ -17,6 +17,7 @@
     "express-basic-auth": "^1.1.4"
   },
   "devDependencies": {
+    "nodemon": "^1.17.1",
     "request": "^2.81.0",
     "tape": "^4.7.0"
   },

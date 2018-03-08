@@ -15,5 +15,11 @@ express()
 	.use(express.static(path.join(__dirname, "public")))
 	.set("views", path.join(__dirname, "views"))
 	.set("view engine", "ejs")
+
+	// Home
 	.get("/", (req, res) => res.render("pages/index"))
+	
+	// RSVP
+	.get("/rsvp", (req, res) => res.render("pages/rsvp"))
+
 	.listen(PORT, () => console.log(`Listening on ${PORT}`));
