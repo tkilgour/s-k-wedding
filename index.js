@@ -3,23 +3,23 @@ const basicAuth = require("express-basic-auth");
 const path = require("path");
 const PORT = process.env.PORT || 5000;
 
-require('dotenv').config();
+require("dotenv").config();
 
 express()
-	// .use(
-	// 	basicAuth({
-	// 		users: { admin: process.env.AUTH_PASS },
-	// 		challenge: true
-	// 	})
-	// )
-	.use(express.static(path.join(__dirname, "public")))
-	.set("views", path.join(__dirname, "views"))
-	.set("view engine", "ejs")
+  .use(express.static(path.join(__dirname, "public")))
+  .set("views", path.join(__dirname, "views"))
+  .set("view engine", "ejs")
 
-	// Home
-	.get("/", (req, res) => res.render("pages/index"))
-	
-	// RSVP
-	.get("/rsvp", (req, res) => res.render("pages/rsvp"))
+  // Home
+  .get("/", (req, res) => res.render("pages/index"))
 
-	.listen(PORT, () => console.log(`Listening on ${PORT}`));
+  .use(
+    basicAuth({
+      users: { admin: "wedding" },
+      challenge: true
+    })
+  )
+  // RSVP
+  .get("/rsvp", (req, res) => res.render("pages/rsvp"))
+
+  .listen(PORT, () => console.log(`Listening on ${PORT}`));

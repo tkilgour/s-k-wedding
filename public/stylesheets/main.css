@@ -166,3 +166,9 @@ p.small {
   height:1px;
   overflow:hidden;
 }
+
+.remove-guest {
+  color: red;
+  background-color: inherit;
+  border: none;
+}

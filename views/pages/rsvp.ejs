@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <% include ../partials/header.ejs %>
 </head>
@@ -7,33 +8,56 @@
 <body>
   <main>
     <div class="centered-container">
-      <div class="info-container">
+      <div id="rsvp" class="info-container">
         <img class="pinecone" src="/images/pinecone.jpg" alt="">
-        <div class="form">
-          <form>
-            <h2 class"ui sub header">Guests</h2>
-            <div>
-              <div class="ui input">
-                <label for="firstName1" class="offscreen">First Name</label>
-                <input id="firstName1" type="text" placeholder="First Name">
+        <form class="ui form">
+          <div class="ui stacked">
+            <h2 class="ui header">{{ party }}</h2>
+            <div v-for="(guest, i) in guests">
+              <div class="two fields">
+                <div class="field">
+                  <label :for=i+"firstName" class="offscreen">First Name</label>
+                  <input :id=i+"firstName" type="text" placeholder="First Name" v-model="guest.firstName">
+                </div>
+                <div class="field">
+                  <label :for=i+"lastName" class="offscreen">Last Name</label>
+                  <input :id=i+"lastName" type="text" placeholder="Last Name" v-model="guest.lastName">
+                </div>
+                <button @click.prevent="removeGuest(i)" class="remove-guest" alt="Remove guest">
+                  X
+                </button>
               </div>
-              <div class="ui input">
-                <label for="lastName1" class="offscreen">Last Name</label>
-                <input id="lastName1" type="text" placeholder="Last Name">
+              <div class="three fields">
+                <div class="inline field">
+                  <div class="ui checkbox">
+                    <input :id=i+"camping" type="checkbox" v-model="guest.camping">
+                    <label :for=i+"camping">Camping</label>
+                  </div>
+                </div>
+                <div class="field">
+                  <div class="ui checkbox">
+                    <input :id=i+"breakfast" type="checkbox" v-model="guest.breakfast">
+                    <label :for=i+"breakfast">Breakfast</label>
+                  </div>
+                </div>
+                <div class="field">
+                  <label :for=i+"dietary" class="offscreen">Dietary Restrictions or Allergies</label>
+                  <input :id=i+"dietary" type="text" placeholder="Dietary Restrictions or Allergies" v-model="guest.dietary">
+                </div>
               </div>
+              <div class="ui divider"></div>
             </div>
-            <div>
-              <button id="addGuest" class="ui labeled icon button">
-                <i class="plus icon"></i>
-                Add Guest
-              </button>
-            </div>
-          </form>
-        </div>
+            <button @click.prevent="addGuest" v-show="!isDisabled" class="ui labeled icon button">
+              <i class="plus icon"></i>
+              Add Guest
+            </button>
+          </div>
+        </form>
         <img class="pinecone flip" src="/images/pinecone.jpg" alt="">
       </div>
     </div>
   </main>
   <footer class="grass"></footer>
 </body>
+
 </html>
