@@ -1,35 +1,22 @@
-window.onload = function() {
+// window.onload = function() {
   new Vue({
     el: "#rsvp",
     data: {
-      party: "Skura / Kilgour",
-      guests: [
-        {
-          firstName: "Anna",
-          lastName: "Skura",
-          camping: true,
-          breakfast: true,
-          dietary: ""
-        },
-        {
-          firstName: "Thomas",
-          lastName: "Kilgour",
-          camping: true,
-          breakfast: true,
-          dietary: "vegetarian"
-        }
-      ],
-      maxGuests: 3
+      party_name: "",
+      guests: [],
+      max_guests: 0,
+      loading: true,
     },
     methods: {
       addGuest: function(e) {
-        if (this.guests.length < this.maxGuests) {
+        if (this.guests.length < this.max_guests) {
           var guest = {
-            firstName: "",
-            lastName: "",
+            first_name: "",
+            last_name: "",
             camping: false,
             breakfast: false,
-            dietary: ""
+            dietary: "",
+            temp_added: true
           };
           this.guests.push(guest);
         }
@@ -40,8 +27,21 @@ window.onload = function() {
     },
     computed: {
       isDisabled() {
-        return this.guests.length >= this.maxGuests;
+        return this.guests.length >= this.max_guests;
       }
+    },
+    mounted() {
+      axios
+        // ASSUMPTION: the pathname will always be "/rsvp/..."
+        .get("http://localhost:5001/api/" + location.pathname.slice(6))
+        .then(res => {
+          let party = res.data[0]
+
+          this.party_name = party.party_name;
+          this.guests = party.guests;
+          this.max_guests = party.max_guests;
+          this.loading = false;
+        })
     }
   });
-};
+// };

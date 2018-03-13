@@ -18,9 +18,12 @@ main {
   text-transform: uppercase;
   font-family: "Gill Sans", "Gill Sans MT", Calibri, sans-serif;
   font-weight: 100;
-  background-color: #aacee3 !important;
   color: #6b8ca5;
   border-color: #6b8ca5;
+}
+
+body {
+  background-color: #aacee3 !important;
 }
 
 main {
@@ -28,6 +31,7 @@ main {
   max-width: 800px;
   margin: 0 auto;
   height: 100%;
+  z-index: 1;
 }
 
 p.sub {
@@ -157,18 +161,48 @@ p.small {
   }
 }
 
-
 .offscreen {
-  position:absolute;
-  left:-10000px;
-  top:auto;
-  width:1px;
-  height:1px;
-  overflow:hidden;
+  position: absolute;
+  left: -10000px;
+  top: auto;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
 }
 
 .remove-guest {
   color: red;
   background-color: inherit;
   border: none;
+}
+
+#rsvp {
+  max-width: 480px;
+  margin: 0 auto;
+  padding-top: 20px;
+  padding-bottom: 100px;
+  text-transform: none;
+}
+
+.ui.grid > .eight.wide.column:nth-child(1) {
+  padding-right: 0.5rem;
+}
+
+.ui.grid > .eight.wide.column:nth-child(2) {
+  padding-left: 0.5rem;
+}
+
+h2.ui.header {
+  margin-top: 0;
+}
+
+#rsvp label {
+  font-family: Lato;
+  font-weight: 500;
+  color: black;
+  text-align: left;
+}
+
+#add-guest {
+  margin-top: 14px;
 }

@@ -7,57 +7,72 @@
 
 <body>
   <main>
-    <div class="centered-container">
-      <div id="rsvp" class="info-container">
-        <img class="pinecone" src="/images/pinecone.jpg" alt="">
-        <form class="ui form">
-          <div class="ui stacked">
-            <h2 class="ui header">{{ party }}</h2>
-            <div v-for="(guest, i) in guests">
-              <div class="two fields">
+    <div id="rsvp" class="info-container">
+      <img class="pinecone" src="/images/pinecone.jpg" alt="">
+      <form class="ui form">
+        <div class="ui basic segment">
+          <div v-show="loading" class="ui centered inline loader active large"></div>
+          <h2 class="ui header">{{ party_name }}</h2>
+          <div v-for="(guest, i) in guests">
+            <div class="ui grid">
+              <div class="eight wide column">
                 <div class="field">
-                  <label :for=i+"firstName" class="offscreen">First Name</label>
-                  <input :id=i+"firstName" type="text" placeholder="First Name" v-model="guest.firstName">
+                  <label :for=i+"first_name">First Name</label>
+                  <input :id=i+"first_name" type="text" placeholder="First Name" v-model="guest.first_name">
                 </div>
+              </div>
+              <div class="eight wide column">
                 <div class="field">
-                  <label :for=i+"lastName" class="offscreen">Last Name</label>
-                  <input :id=i+"lastName" type="text" placeholder="Last Name" v-model="guest.lastName">
+                  <label :for=i+"last_name">Last Name</label>
+                  <input :id=i+"last_name" type="text" placeholder="Last Name" v-model="guest.last_name">
                 </div>
-                <button @click.prevent="removeGuest(i)" class="remove-guest" alt="Remove guest">
-                  X
+              </div>
+              <div class="twelve wide column">
+                <div class="field">
+                  <label :for=i+"dietary">Allergies/Dietary Restrictions</label>
+                  <input :id=i+"dietary" type="text" placeholder="Allergies/Dietary Restrictions" v-model="guest.dietary">
+                </div>
+              </div>
+              <div class="four wide column" v-show="guest.temp_added">
+                <label :for=i+"remove-guest">Remove Guest</label>
+                <button @click.prevent="removeGuest(i)" class="ui icon button" :id=i+"remove-guest">
+                  <i class="trash icon"></i>
                 </button>
               </div>
-              <div class="three fields">
-                <div class="inline field">
-                  <div class="ui checkbox">
-                    <input :id=i+"camping" type="checkbox" v-model="guest.camping">
-                    <label :for=i+"camping">Camping</label>
+              <div class="sixteen wide column">
+                <div class="inline fields">
+                  <div class="field">
+                    <div class="ui checkbox">
+                      <input :id=i+"attending" type="checkbox" v-model="guest.attending">
+                      <label :for=i+"attending">Attending</label>
+                    </div>
                   </div>
-                </div>
-                <div class="field">
-                  <div class="ui checkbox">
-                    <input :id=i+"breakfast" type="checkbox" v-model="guest.breakfast">
-                    <label :for=i+"breakfast">Breakfast</label>
+                  <div class="field">
+                    <div class="ui checkbox">
+                      <input :id=i+"camping" type="checkbox" v-model="guest.camping">
+                      <label :for=i+"camping">Camping</label>
+                    </div>
                   </div>
-                </div>
-                <div class="field">
-                  <label :for=i+"dietary" class="offscreen">Dietary Restrictions or Allergies</label>
-                  <input :id=i+"dietary" type="text" placeholder="Dietary Restrictions or Allergies" v-model="guest.dietary">
+                  <div class="field">
+                    <div class="ui checkbox">
+                      <input :id=i+"breakfast" type="checkbox" v-model="guest.breakfast">
+                      <label :for=i+"breakfast">Breakfast</label>
+                    </div>
+                  </div>
                 </div>
               </div>
-              <div class="ui divider"></div>
             </div>
-            <button @click.prevent="addGuest" v-show="!isDisabled" class="ui labeled icon button">
-              <i class="plus icon"></i>
-              Add Guest
-            </button>
+            <div v-show="i < guests.length - 1" class="ui divider"></div>
           </div>
-        </form>
-        <img class="pinecone flip" src="/images/pinecone.jpg" alt="">
-      </div>
+          <button @click.prevent="addGuest" v-show="!isDisabled" class="ui labeled icon button" id="add-guest">
+            <i class="user icon"></i>
+            Add Guest
+          </button>
+        </div>
+      </form>
     </div>
   </main>
   <footer class="grass"></footer>
 </body>
-
+<script src="/js/main.js"></script>
 </html>
