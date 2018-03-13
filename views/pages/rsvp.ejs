@@ -33,12 +33,6 @@
                   <input :id=i+"dietary" type="text" placeholder="Allergies/Dietary Restrictions" v-model="guest.dietary">
                 </div>
               </div>
-              <div class="four wide column" v-show="guest.temp_added">
-                <label :for=i+"remove-guest">Remove Guest</label>
-                <button @click.prevent="removeGuest(i)" class="ui icon button" :id=i+"remove-guest">
-                  <i class="trash icon"></i>
-                </button>
-              </div>
               <div class="sixteen wide column">
                 <div class="inline fields">
                   <div class="field">
@@ -60,7 +54,13 @@
                     </div>
                   </div>
                 </div>
+                <button v-show="guest.temp_added" @click.prevent="removeGuest(i)" class="ui labeled icon button" id="remove-guest">
+                  <i class="trash icon"></i>
+                  Remove Guest
+                </button>
               </div>
+              <!-- <div class="eight wide column left aligned" v-show="guest.temp_added"> -->
+              <!-- </div> -->
             </div>
             <div v-show="i < guests.length - 1" class="ui divider"></div>
           </div>
