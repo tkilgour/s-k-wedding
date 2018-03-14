@@ -47,29 +47,52 @@ app.use(function(req, res, next) {
 // simulate server latency
 // app.use((req, res, next) => setTimeout(next, 1000));
 
+// router
+// .route("/")
+// // retrieve all parties from db
+// .get(function(req, res) {
+//   Party.find(function(err, parties) {
+//     if (err) res.send(err);
+//     res.json(parties);
+//   });
+// });
+
 router
-  .route("/")
-  // retrieve all parties from db
+  .route("/parties/:query")
+
+  // get specific Party from DB
   .get(function(req, res) {
     Party.find(function(err, parties) {
       if (err) res.send(err);
-      res.json(parties);
+
+      queriedParty = parties.filter(party => {
+        return party.party_slug === req.params.query.toLowerCase();
+      });
+
+      // pusher.note(process.env.PB_PHONE_TOKEN, `"${queriedParty[0].party_name}" visited their RSVP page`, 'test', (err, res) => console.log(res));
+
+      res.json(queriedParty);
     });
   });
 
-router.route("/:query").get(function(req, res) {
-  Party.find(function(err, parties) {
-    if (err) res.send(err);
+router
+  .route("/parties/:party_id")
+  // update specific Party in DB
+  .put(function(req, res) {
+    Party.findById(req.params.party_id, function(err, party) {
+      if (err) res.send(err);
 
-    queriedParty = parties.filter(party => {
-      return party.party_slug === req.params.query.toLowerCase();
+      req.body.guests ? (party.guests = req.body.guests) : null;
+      party.potluck = req.body.potluck;
+      party.rsvp_saved = true;
+
+      party.save(function(err) {
+        if (err) res.send(err);
+
+        res.json({ saved: true });
+      });
     });
-
-    // pusher.note(process.env.PB_PHONE_TOKEN, `"${queriedParty[0].party_name}" visited their RSVP page`, 'test', (err, res) => console.log(res));
-
-    res.json(queriedParty);
   });
-});
 
 //Use our router configuration when we call /api
 app.use("/api", router);

@@ -13,6 +13,9 @@ var PartiesSchema = new Schema({
 	},
 	party_slug: String,
 	maxGuests: Number,
+	potluck: Boolean,
+	rsvp_opened: Boolean,
+	rsvp_saved: Boolean,
 	guests: [
 		{
 			first_name: String,

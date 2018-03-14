@@ -81,7 +81,7 @@
                 <label for="potluck">I would love to contribute a small dish!</label>
               </div>
             </div>
-            <button @click.prevent="submit" class="ui primary button right floated">Submit!</button>
+            <button @click.prevent="submit" v-bind:class="[saving ? 'loading' : '' ,'ui primary large button right floated']">{{saving === false ? "Saved!" : "Submit"}}</button>
           </div>
         </div>
       </form>
