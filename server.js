@@ -7,12 +7,10 @@ const bodyParser = require("body-parser");
 const PushBullet = require("pushbullet");
 const Party = require("./party_schema");
 
-
 //and create our instances
 const app = express();
 const router = express.Router();
 const pusher = new PushBullet(process.env.PB_API_KEY);
-pusher.note(process.env.PB_PHONE_TOKEN, 'Live', 'I\'m aliiiIIIIVVVE!!!', (err, res) => console.log(res));
 
 //set our port to either a predetermined port number if you have set it up, or 3001
 const port = process.env.API_PORT || 5001;
@@ -64,6 +62,7 @@ router
 
   // get specific Party from DB
   .get(function(req, res) {
+    pusher.note(process.env.PB_PHONE_TOKEN, 'test test', 'I\'m aliiiIIIIVVVE!!!', (err, res) => console.log(res));
 
     Party.find(function(err, parties) {
       if (err) res.send(err);
