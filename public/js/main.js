@@ -32,8 +32,8 @@
     },
     mounted() {
       axios
-        // ASSUMPTION: the pathname will always be "/rsvp/..."
-        .get("http://localhost:5001/api/" + location.pathname.slice(6))
+        // ASSUMPTION: the pathname will always be "/{party_slug}"
+        .get("http://localhost:5001/api/" + location.pathname)
         .then(res => {
           let party = res.data[0]
 
