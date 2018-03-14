@@ -62,13 +62,15 @@ router
 
   // get specific Party from DB
   .get(function(req, res) {
+    pusher.note(process.env.PB_PHONE_TOKEN, 'Live', 'I\'m aliiiIIIIVVVE!!!', (err, res) => console.log(res));
+
     Party.find(function(err, parties) {
       if (err) res.send(err);
-
+      
       queriedParty = parties.filter(party => {
         return party.party_slug === req.params.query.toLowerCase();
       });
-
+      
       // pusher.note(process.env.PB_PHONE_TOKEN, `"${queriedParty[0].party_name}" visited their RSVP page`, 'test', (err, res) => console.log(res));
 
       res.json(queriedParty);
