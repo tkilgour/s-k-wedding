@@ -20,6 +20,6 @@ express()
     })
   )
   // RSVP
-  .get("/rsvp", (req, res) => res.render("pages/rsvp"))
+  .get("/:party", (req, res) => res.render("pages/rsvp"))
 
   .listen(PORT, () => console.log(`Listening on ${PORT}`));

@@ -7,57 +7,87 @@
 
 <body>
   <main>
-    <div class="centered-container">
-      <div id="rsvp" class="info-container">
-        <img class="pinecone" src="/images/pinecone.jpg" alt="">
-        <form class="ui form">
-          <div class="ui stacked">
-            <h2 class="ui header">{{ party }}</h2>
-            <div v-for="(guest, i) in guests">
-              <div class="two fields">
+    <div id="rsvp" class="info-container">
+      <img class="pinecone" src="/images/pinecone.jpg" alt="">
+      <div v-show="loading" class="ui centered inline loader active large"></div>
+      <div v-if="!party && !loading" class="ui basic segment text-center">
+          <h1 class="ui header">Whoops!</h1>
+        <p>The URL you entered does not exist.<br>Please double-check your invitation.</p>
+      </div>
+      <form class="ui form" v-if="party">
+        <div class="ui basic segment">
+          <h1 class="ui header centered">{{ party.party_name }}</h2>
+          <p>We are very excited to have you be a part of our wedding celebration! Please let us know some details below about who will be attending from your party.</p>
+          <p>Everyone is welcome to camp out overnight on the farm. We will also be serving a simple breakfast in the morning which you are welcome to return for if you're not camping.</p>
+          <h3 class="ui header">Guests</h2>
+          <div v-for="(guest, i) in party.guests">
+            <div class="ui grid">
+              <div class="eight wide column">
                 <div class="field">
-                  <label :for=i+"firstName" class="offscreen">First Name</label>
-                  <input :id=i+"firstName" type="text" placeholder="First Name" v-model="guest.firstName">
+                  <label :for=i+"first_name">First Name</label>
+                  <input :id=i+"first_name" type="text" placeholder="First Name" v-model="guest.first_name">
                 </div>
+              </div>
+              <div class="eight wide column">
                 <div class="field">
-                  <label :for=i+"lastName" class="offscreen">Last Name</label>
-                  <input :id=i+"lastName" type="text" placeholder="Last Name" v-model="guest.lastName">
+                  <label :for=i+"last_name">Last Name</label>
+                  <input :id=i+"last_name" type="text" placeholder="Last Name" v-model="guest.last_name">
                 </div>
-                <button @click.prevent="removeGuest(i)" class="remove-guest" alt="Remove guest">
-                  X
+              </div>
+              <div class="twelve wide column">
+                <div class="field">
+                  <label :for=i+"dietary">Allergies/Dietary Restrictions</label>
+                  <input :id=i+"dietary" type="text" placeholder="Allergies/Dietary Restrictions" v-model="guest.dietary">
+                </div>
+              </div>
+              <div class="sixteen wide column">
+                <div class="inline fields">
+                  <div class="field">
+                    <div class="ui checkbox">
+                      <input :id=i+"attending" type="checkbox" v-model="guest.attending">
+                      <label :for=i+"attending">Attending</label>
+                    </div>
+                  </div>
+                  <div class="field">
+                    <div class="ui checkbox">
+                      <input :id=i+"camping" type="checkbox" v-model="guest.camping">
+                      <label :for=i+"camping">Camping</label>
+                    </div>
+                  </div>
+                  <div class="field">
+                    <div class="ui checkbox">
+                      <input :id=i+"breakfast" type="checkbox" v-model="guest.breakfast">
+                      <label :for=i+"breakfast">Breakfast</label>
+                    </div>
+                  </div>
+                </div>
+                <button v-show="guest.temp_added" @click.prevent="removeGuest(i)" class="ui labeled icon button" id="remove-guest">
+                  <i class="trash icon"></i>
+                  Remove Guest
                 </button>
               </div>
-              <div class="three fields">
-                <div class="inline field">
-                  <div class="ui checkbox">
-                    <input :id=i+"camping" type="checkbox" v-model="guest.camping">
-                    <label :for=i+"camping">Camping</label>
-                  </div>
-                </div>
-                <div class="field">
-                  <div class="ui checkbox">
-                    <input :id=i+"breakfast" type="checkbox" v-model="guest.breakfast">
-                    <label :for=i+"breakfast">Breakfast</label>
-                  </div>
-                </div>
-                <div class="field">
-                  <label :for=i+"dietary" class="offscreen">Dietary Restrictions or Allergies</label>
-                  <input :id=i+"dietary" type="text" placeholder="Dietary Restrictions or Allergies" v-model="guest.dietary">
-                </div>
-              </div>
-              <div class="ui divider"></div>
             </div>
-            <button @click.prevent="addGuest" v-show="!isDisabled" class="ui labeled icon button">
-              <i class="plus icon"></i>
-              Add Guest
-            </button>
+            <div class="ui divider"></div>
           </div>
-        </form>
-        <img class="pinecone flip" src="/images/pinecone.jpg" alt="">
-      </div>
+          <div class="lower-wrapper">
+            <button @click.prevent="addGuest" v-show="!isDisabled" class="ui labeled icon button" id="add-guest">
+              <i class="user icon"></i>
+              Add a Guest
+            </button>
+            <p>We will be having potluck-style apetizers and desserts. If you are able to contribute, please let us know and we wil get in touch about specifics at a later date.</p>
+            <div class="field">
+              <div class="ui checkbox">
+                <input id="potluck" type="checkbox" v-model="party.potluck">
+                <label for="potluck">I would love to contribute a small dish!</label>
+              </div>
+            </div>
+            <button @click.prevent="submit" v-bind:class="[saving ? 'loading' : '' ,'ui primary large button right floated']">{{saving === false ? "Saved!" : "Submit"}}</button>
+          </div>
+        </div>
+      </form>
     </div>
   </main>
   <footer class="grass"></footer>
 </body>
-
+<script src="/js/main.js"></script>
 </html>
