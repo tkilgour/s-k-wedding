@@ -9,11 +9,18 @@
   <main>
     <div id="rsvp" class="info-container">
       <img class="pinecone" src="/images/pinecone.jpg" alt="">
-      <form class="ui form">
+      <div v-show="loading" class="ui centered inline loader active large"></div>
+      <div v-if="!party && !loading" class="ui basic segment text-center">
+          <h1 class="ui header">Whoops!</h1>
+        <p>The URL you entered does not exist.<br>Please double-check your invitation.</p>
+      </div>
+      <form class="ui form" v-if="party">
         <div class="ui basic segment">
-          <div v-show="loading" class="ui centered inline loader active large"></div>
-          <h2 class="ui header">{{ party_name }}</h2>
-          <div v-for="(guest, i) in guests">
+          <h1 class="ui header centered">{{ party.party_name }}</h2>
+          <p>We are very excited to have you be a part of our wedding celebration! Please let us know some details below about who will be attending from your party.</p>
+          <p>Everyone is welcome to camp out overnight on the farm. We will also be serving a simple breakfast in the morning which you are welcome to return for if you're not camping.</p>
+          <h3 class="ui header">Guests</h2>
+          <div v-for="(guest, i) in party.guests">
             <div class="ui grid">
               <div class="eight wide column">
                 <div class="field">
@@ -59,15 +66,23 @@
                   Remove Guest
                 </button>
               </div>
-              <!-- <div class="eight wide column left aligned" v-show="guest.temp_added"> -->
-              <!-- </div> -->
             </div>
-            <div v-show="i < guests.length - 1" class="ui divider"></div>
+            <div class="ui divider"></div>
           </div>
-          <button @click.prevent="addGuest" v-show="!isDisabled" class="ui labeled icon button" id="add-guest">
-            <i class="user icon"></i>
-            Add Guest
-          </button>
+          <div class="lower-wrapper">
+            <button @click.prevent="addGuest" v-show="!isDisabled" class="ui labeled icon button" id="add-guest">
+              <i class="user icon"></i>
+              Add a Guest
+            </button>
+            <p>We will be having potluck-style apetizers and desserts. If you are able to contribute, please let us know and we wil get in touch about specifics at a later date.</p>
+            <div class="field">
+              <div class="ui checkbox">
+                <input id="potluck" type="checkbox" v-model="party.potluck">
+                <label for="potluck">I would love to contribute a small dish!</label>
+              </div>
+            </div>
+            <button @click.prevent="submit" class="ui primary button right floated">Submit!</button>
+          </div>
         </div>
       </form>
     </div>
