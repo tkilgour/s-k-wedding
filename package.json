@@ -4,7 +4,7 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "babel": "babel --presets es2015 public/asstes/js/main.js -o public/build/main.bundle.js",
+    "babel": "babel --presets es2015 public/assets/js/main.js -o public/build/main.bundle.js",
     "start": "node server.js"
   },
   "author": "",
