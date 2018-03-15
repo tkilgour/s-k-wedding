@@ -26,6 +26,21 @@ body {
   background-color: #aacee3 !important;
 }
 
+html, body.rsvp {
+  /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#9abfd9+0,ccdfec+36,ffffff+100 */
+
+  background-color: #9abfd9;
+  background-image: -webkit-linear-gradient(top, #9abfd9 0%, #ccdfec 36%, #ffffff 100%);
+  background-image:    -moz-linear-gradient(top, #9abfd9 0%, #ccdfec 36%, #ffffff 100%);
+  background-image:      -o-linear-gradient(top, #9abfd9 0%, #ccdfec 36%, #ffffff 100%);
+  background-image:         linear-gradient(to bottom, #9abfd9 0%, #ccdfec 36%, #ffffff 100%);
+  background-attachment: fixed;
+}
+
+body.rsvp, body.rsvp > main {
+  height: auto;
+}
+
 main {
   position: relative;
   max-width: 800px;
@@ -96,7 +111,7 @@ p.small {
 
 .grass {
   /* display: block; */
-  background-image: url("/public/images/grass.svg");
+  background-image: url("/assets/images/grass.svg");
   background-repeat: repeat-x;
   background-size: contain;
   background-position: bottom;
@@ -105,6 +120,7 @@ p.small {
   left: 0;
   height: 100px;
   width: 200%;
+  opacity: 0.4;
 }
 
 .pinecone {
@@ -219,11 +235,11 @@ h1.ui.header {
   }
 }
 
-button.ui.button.primary {
+#submit {
   background-color: #648fa8;
 }
 
-button.ui.button.primary:hover {
+#submit:hover {
   background-color: #456779;
 }
 

@@ -5,10 +5,10 @@
   <% include ../partials/header.ejs %>
 </head>
 
-<body>
+<body class="rsvp">
   <main>
     <div id="rsvp" class="info-container">
-      <img class="pinecone" src="/public/images/pinecone.jpg" alt="">
+      <img class="pinecone" src="/assets/images/pinecone.png" alt="">
       <div v-show="loading" class="ui centered inline loader active large"></div>
       <div v-if="!party && !loading" class="ui basic segment text-center">
           <h1 class="ui header">Whoops!</h1>
@@ -74,14 +74,14 @@
               <i class="user icon"></i>
               Add a Guest
             </button>
-            <p>We will be having potluck-style appetizers and desserts. If you are able to contribute, please let us know and we’ll get in touch about specifics at a later date.</p>
+            <p>IN-TOWN GUESTS: We will be having potluck-style appetizers and desserts. If you are able to contribute, please let us know and we’ll get in touch soon about specifics.</p>
             <div class="field">
               <div class="ui checkbox large">
                 <input id="potluck" type="checkbox" v-model="party.potluck">
                 <label for="potluck">I would love to contribute a small dish!</label>
               </div>
             </div>
-            <button @click.prevent="submit" v-bind:class="[saving ? 'loading' : '' ,'ui primary large button right floated']">{{saving === false ? "Saved!" : "Submit"}}</button>
+            <button id="submit" @click.prevent="submit" v-bind:class="[saving ? 'loading' : '' ,'ui primary large button right floated']">{{saving === false ? "Saved!" : "Submit"}}</button>
           </div>
         </div>
       </form>
@@ -89,5 +89,5 @@
   </main>
   <footer class="grass"></footer>
 </body>
-<script src="/public/js/main.js"></script>
+<script src="/assets/js/main.js"></script>
 </html>
