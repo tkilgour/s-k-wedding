@@ -30,7 +30,6 @@ new Vue({
           .put("/api/parties/" + this.party._id, this.party)
           .then(res => {
             if (res.data.saved) {
-              var saving = this.saving
               this.saving = false;
               setTimeout(function() { this.saving = null; }.bind(this), 5000)
             }
@@ -51,7 +50,7 @@ new Vue({
       // ASSUMPTION: the pathname will always be "/{party_slug}"
       .get("/api/parties" + location.pathname)
       .then(res => {
-        if (res.data.length > 0) this.party = res.data[0];
+        if (res.data !== null) this.party = res.data;
         this.loading = false;
       })
   }

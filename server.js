@@ -33,37 +33,6 @@ app
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-//To prevent errors from Cross Origin Resource Sharing, we will set our headers to allow CORS with middleware like so:
-// app.use(function(req, res, next) {
-//   res.setHeader("Access-Control-Allow-Origin", "*");
-//   res.setHeader("Access-Control-Allow-Credentials", "true");
-//   res.setHeader(
-//     "Access-Control-Allow-Methods",
-//     "GET,HEAD,OPTIONS,POST,PUT,DELETE"
-//   );
-//   res.setHeader(
-//     "Access-Control-Allow-Headers",
-//     "Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers"
-//   );
-
-//   //and remove cacheing so we get the most recent parties
-//   res.setHeader("Cache-Control", "no-cache");
-//   next();
-// });
-
-// simulate server latency
-// app.use((req, res, next) => setTimeout(next, 1000));
-
-// router
-// .route("/")
-// // retrieve all parties from db
-// .get(function(req, res) {
-//   Party.find(function(err, parties) {
-//     if (err) res.send(err);
-//     res.json(parties);
-//   });
-// });
-
 app
   // Home
   .get("/", (req, res) => res.render("pages/index"))
@@ -78,16 +47,20 @@ router
   // get specific Party from DB
   .get(function(req, res) {
 
-    Party.find(function(err, parties) {
+    Party.findOne({ party_slug: req.params.query.toLowerCase() }, function(err, party) {
       if (err) res.send(err);
-      
-      queriedParty = parties.filter(party => {
-        return party.party_slug === req.params.query.toLowerCase();
-      });
-      
-      pusher.note(process.env.PB_PHONE_TOKEN, `"${queriedParty[0].party_name}" visited their RSVP page`, 'test');
 
-      res.json(queriedParty);
+      if (party) {
+        party.rsvp_opened = true;
+        
+        party.save(function(err) {
+          if (err) res.send(err);
+          
+          pusher.note(process.env.PB_PHONE_TOKEN, `"${party.party_name}" visited their RSVP page`);
+        })
+      }
+
+      res.json(party);
     });
   });
 
@@ -105,6 +78,7 @@ router
       party.save(function(err) {
         if (err) res.send(err);
 
+        pusher.note(process.env.PB_PHONE_TOKEN, `"${party.party_name}" updated their RSVP`);
         res.json({ saved: true });
       });
     });
