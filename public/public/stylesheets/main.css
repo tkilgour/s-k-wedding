@@ -218,3 +218,21 @@ h1.ui.header {
     padding-right: 0.9em !important;
   }
 }
+
+button.ui.button.primary {
+  background-color: #648fa8;
+}
+
+button.ui.button.primary:hover {
+  background-color: #456779;
+}
+
+@media (min-width: 640px) {
+  #rsvp p {
+    font-size: 16px;
+  }
+
+  .ui.checkbox.large {
+    font-size: 16px !important;
+  }
+}
