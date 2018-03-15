@@ -14,6 +14,7 @@ new Vue({
           camping: false,
           breakfast: false,
           dietary: "",
+          attending: true,
           temp_added: true
         };
         this.party.guests.push(guest);

@@ -3,6 +3,7 @@ require("dotenv").config();
 //first we import our dependencies...
 const express = require("express");
 const mongoose = require("mongoose");
+const path = require("path");
 const bodyParser = require("body-parser");
 const PushBullet = require("pushbullet");
 const Party = require("./party_schema");
@@ -13,7 +14,7 @@ const router = express.Router();
 const pusher = new PushBullet(process.env.PB_API_KEY);
 
 //set our port to either a predetermined port number if you have set it up, or 3001
-const port = process.env.API_PORT || 5001;
+const port = process.env.API_PORT || 8080;
 const user = process.env.DB_USER;
 const pass = process.env.DB_PASS;
 
@@ -22,27 +23,33 @@ mongoose.connect(
   `mongodb://${user}:${pass}@ds117888.mlab.com:17888/wedding-management`
 );
 
+// Setup static server
+app
+  .use(express.static(path.join(__dirname, "public")))
+  .set("views", path.join(__dirname, "views"))
+  .set("view engine", "ejs")
+
 //now we should configure the API to use bodyParser and look for JSON data in the request body
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 //To prevent errors from Cross Origin Resource Sharing, we will set our headers to allow CORS with middleware like so:
-app.use(function(req, res, next) {
-  res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader("Access-Control-Allow-Credentials", "true");
-  res.setHeader(
-    "Access-Control-Allow-Methods",
-    "GET,HEAD,OPTIONS,POST,PUT,DELETE"
-  );
-  res.setHeader(
-    "Access-Control-Allow-Headers",
-    "Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers"
-  );
+// app.use(function(req, res, next) {
+//   res.setHeader("Access-Control-Allow-Origin", "*");
+//   res.setHeader("Access-Control-Allow-Credentials", "true");
+//   res.setHeader(
+//     "Access-Control-Allow-Methods",
+//     "GET,HEAD,OPTIONS,POST,PUT,DELETE"
+//   );
+//   res.setHeader(
+//     "Access-Control-Allow-Headers",
+//     "Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers"
+//   );
 
-  //and remove cacheing so we get the most recent parties
-  res.setHeader("Cache-Control", "no-cache");
-  next();
-});
+//   //and remove cacheing so we get the most recent parties
+//   res.setHeader("Cache-Control", "no-cache");
+//   next();
+// });
 
 // simulate server latency
 // app.use((req, res, next) => setTimeout(next, 1000));
@@ -57,6 +64,14 @@ app.use(function(req, res, next) {
 //   });
 // });
 
+app
+  // Home
+  .get("/", (req, res) => res.render("pages/index"))
+
+  // RSVP
+  .get("/:party", (req, res) => res.render("pages/rsvp"))
+
+// API
 router
   .route("/parties/:query")
 
