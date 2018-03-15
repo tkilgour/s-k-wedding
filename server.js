@@ -14,7 +14,7 @@ const router = express.Router();
 const pusher = new PushBullet(process.env.PB_API_KEY);
 
 //set our port to either a predetermined port number if you have set it up, or 3001
-const port = process.env.API_PORT || 8080;
+const port = process.env.PORT || 8080;
 const user = process.env.DB_USER;
 const pass = process.env.DB_PASS;
 
