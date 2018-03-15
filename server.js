@@ -14,7 +14,7 @@ const router = express.Router();
 const pusher = new PushBullet(process.env.PB_API_KEY);
 
 //set our port to either a predetermined port number if you have set it up, or 3001
-const port = process.env.PORT || 8080;
+const port = process.env.PORT || 5000;
 const user = process.env.DB_USER;
 const pass = process.env.DB_PASS;
 
@@ -26,7 +26,7 @@ mongoose.connect(
 // Setup static server
 app
   .use(express.static(path.join(__dirname, "public")))
-  .set("views", path.join(__dirname, "views"))
+  .set("views", path.join(__dirname, "public/views"))
   .set("view engine", "ejs")
 
 //now we should configure the API to use bodyParser and look for JSON data in the request body
@@ -77,7 +77,6 @@ router
 
   // get specific Party from DB
   .get(function(req, res) {
-    pusher.note(process.env.PB_PHONE_TOKEN, 'test test', 'I\'m aliiiIIIIVVVE!!!', (err, res) => console.log(res));
 
     Party.find(function(err, parties) {
       if (err) res.send(err);
@@ -86,7 +85,7 @@ router
         return party.party_slug === req.params.query.toLowerCase();
       });
       
-      // pusher.note(process.env.PB_PHONE_TOKEN, `"${queriedParty[0].party_name}" visited their RSVP page`, 'test', (err, res) => console.log(res));
+      pusher.note(process.env.PB_PHONE_TOKEN, `"${queriedParty[0].party_name}" visited their RSVP page`, 'test');
 
       res.json(queriedParty);
     });

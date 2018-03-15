@@ -96,7 +96,7 @@ p.small {
 
 .grass {
   /* display: block; */
-  background-image: url("/images/grass.svg");
+  background-image: url("/public/images/grass.svg");
   background-repeat: repeat-x;
   background-size: contain;
   background-position: bottom;

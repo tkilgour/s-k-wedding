@@ -27,7 +27,7 @@ new Vue({
       if (this.party) {
         this.saving = true;
         axios
-          .put("http://localhost:5001/api/parties/" + this.party._id, this.party)
+          .put("/api/parties/" + this.party._id, this.party)
           .then(res => {
             if (res.data.saved) {
               var saving = this.saving
@@ -49,7 +49,7 @@ new Vue({
   mounted() {
     axios
       // ASSUMPTION: the pathname will always be "/{party_slug}"
-      .get("http://localhost:5001/api/parties" + location.pathname)
+      .get("/api/parties" + location.pathname)
       .then(res => {
         if (res.data.length > 0) this.party = res.data[0];
         this.loading = false;
