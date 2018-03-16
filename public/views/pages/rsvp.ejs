@@ -9,79 +9,93 @@
   <main>
     <div id="rsvp" class="info-container">
       <img class="pinecone" src="/assets/images/pinecone.png" alt="">
+      <h1 class="name">Anna &amp; Thomas</h1>
       <div v-show="loading" class="ui centered inline loader active large"></div>
       <div v-if="!party && !loading" class="ui basic segment text-center">
-          <h1 class="ui header">Whoops!</h1>
+          <h2 class="ui header">Whoops!</h2>
         <p>The URL you entered does not exist.<br>Please double-check your invitation.</p>
       </div>
       <form class="ui form" v-if="party">
         <div class="ui basic segment">
-          <h1 class="ui header centered">{{ party.party_name }}</h1>
-          <p>We are very excited to have you be a part of our wedding celebration! Please let us know some details below about who will be attending from your party.</p>
-          <p>Everyone is welcome to camp out overnight on the farm. We’ll also be serving a simple breakfast in the morning, which you’re welcome to return for even if you're not camping.</p>
-          <h3 class="ui header">Guests</h2>
-          <div v-for="(guest, i) in party.guests">
-            <div class="ui grid">
-              <div class="eight wide column">
-                <div class="field">
-                  <label :for=i+"first_name">First Name</label>
-                  <input :id=i+"first_name" type="text" placeholder="First Name" v-model="guest.first_name">
-                </div>
-              </div>
-              <div class="eight wide column">
-                <div class="field">
-                  <label :for=i+"last_name">Last Name</label>
-                  <input :id=i+"last_name" type="text" placeholder="Last Name" v-model="guest.last_name">
-                </div>
-              </div>
-              <div class="twelve wide column">
-                <div class="field">
-                  <label :for=i+"dietary">Allergies/Dietary Restrictions</label>
-                  <input :id=i+"dietary" type="text" placeholder="Allergies/Dietary Restrictions" v-model="guest.dietary">
-                </div>
-              </div>
-              <div class="sixteen wide column">
-                <div class="inline fields">
-                  <div class="field">
-                    <div class="ui checkbox">
-                      <input :id=i+"attending" type="checkbox" v-model="guest.attending">
-                      <label :for=i+"attending">Attending</label>
-                    </div>
-                  </div>
-                  <div class="field">
-                    <div class="ui checkbox">
-                      <input :id=i+"camping" type="checkbox" v-model="guest.camping">
-                      <label :for=i+"camping">Camping</label>
-                    </div>
-                  </div>
-                  <div class="field">
-                    <div class="ui checkbox">
-                      <input :id=i+"breakfast" type="checkbox" v-model="guest.breakfast">
-                      <label :for=i+"breakfast">Breakfast</label>
-                    </div>
-                  </div>
-                </div>
-                <button v-show="guest.temp_added" @click.prevent="removeGuest(i)" class="ui labeled icon button" id="remove-guest">
-                  <i class="trash icon"></i>
-                  Remove Guest
-                </button>
-              </div>
+          <h2 class="ui header centered">{{ party.party_name }}</h2>
+          <div v-if="party.rsvp_attending === null">
+            <p>We would love you to be part of our Guelph wedding celebration on Aug. 11, 2018. Is your party able to attend?</p>
+            <div class="text-center">
+              <button @click.prevent="partyAttending" class="ui button primary basic">Yes, we'll be attending!</button>
+              <button @click.prevent="partyNotAttending" v-bind:class="[saving ? 'loading' : '' ,'ui button negative basic']">Unfortunately, we can't make it</button>
             </div>
-            <div class="ui divider"></div>
           </div>
-          <div class="lower-wrapper">
-            <button @click.prevent="addGuest" v-show="!isDisabled" class="ui labeled icon button" id="add-guest">
-              <i class="user icon"></i>
-              Add a Guest
-            </button>
-            <p>IN-TOWN GUESTS: We will be having potluck-style appetizers and desserts. If you are able to contribute, please let us know and we’ll get in touch soon about specifics.</p>
-            <div class="field">
-              <div class="ui checkbox large">
-                <input id="potluck" type="checkbox" v-model="party.potluck">
-                <label for="potluck">I would love to contribute a small dish!</label>
+          <div v-if="party.rsvp_attending && !thanks" class="attending">
+            <p>We are very excited to have you be part of our wedding celebration! Please use the form below to send us your RSVP details. Everyone is welcome to camp overnight on the farm. We’ll serve a simple breakfast in the morning for the campers, but anyone else is welcome to return for this as well. Again, just indicate your preference below. <strong>Questions?</strong> Email: <a href="mailto:hello@s-k.wedding">hello@s-k.wedding</a>.</p>
+            <h3 class="ui header">Guests</h3>
+              <div class="ui divider"></div>
+              <div v-for="(guest, i) in party.guests">
+              <div class="ui grid">
+                <div class="eight wide column">
+                  <div class="field">
+                    <label :for=i+"first_name">First Name</label>
+                    <input :id=i+"first_name" type="text" placeholder="First Name" v-model="guest.first_name">
+                  </div>
+                </div>
+                <div class="eight wide column">
+                  <div class="field">
+                    <label :for=i+"last_name">Last Name</label>
+                    <input :id=i+"last_name" type="text" placeholder="Last Name" v-model="guest.last_name">
+                  </div>
+                </div>
+                <div class="sixteen wide column">
+                  <div class="inline fields">
+                    <div class="field">
+                      <div class="ui checkbox">
+                        <input :id=i+"attending" type="checkbox" v-model="guest.attending">
+                        <label :for=i+"attending">Attending</label>
+                      </div>
+                    </div>
+                    <div class="field">
+                      <div class="ui checkbox">
+                        <input :id=i+"camping" type="checkbox" v-model="guest.camping">
+                        <label :for=i+"camping">Camping</label>
+                      </div>
+                    </div>
+                    <div class="field">
+                      <div class="ui checkbox">
+                        <input :id=i+"breakfast" type="checkbox" v-model="guest.breakfast">
+                        <label :for=i+"breakfast">Breakfast</label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="twelve wide column">                  
+                  <div class="field">
+                    <label :for=i+"dietary">Allergies/Dietary Restrictions</label>
+                    <input :id=i+"dietary" type="text" placeholder="Allergies/Dietary Restrictions" v-model="guest.dietary">
+                  </div>
+                  <button v-show="guest.manually_added" @click.prevent="removeGuest(i)" class="ui button negative basic" id="remove-guest">Remove Guest</button>
+                </div>
               </div>
+              <div class="ui divider"></div>
             </div>
-            <button id="submit" @click.prevent="submit" v-bind:class="[saving ? 'loading' : '' ,'ui primary large button right floated']">{{saving === false ? "Saved!" : "Submit"}}</button>
+            <div class="lower-wrapper">
+              <button @click.prevent="addGuest" v-show="!isDisabled" class="ui button primary basic" id="add-guest">Add a Guest</button>
+              <h3 class="ui header">In-town Guests</h3>
+              <p>We will be having potluck-style appetizers and desserts. If you are able to contribute, please let us know and we’ll get in touch soon about specifics.</p>
+              <div class="field">
+                <div class="ui checkbox large">
+                  <input id="potluck" type="checkbox" v-model="party.potluck">
+                  <label for="potluck">I would love to contribute a small dish!</label>
+                </div>
+              </div>
+              <button id="submit" @click.prevent="submit" v-bind:class="[saving ? 'loading' : '' ,'ui primary large button']">Submit</button>
+            </div>
+          </div>
+          <div v-if="party.rsvp_attending === false && thanks">
+            <p>Thank you for letting us know. We're sorry you can't be there.</p>
+            <a href="/" class="ui button basic primary">< Return to Main Page</a>
+          </div>
+          <div v-if="party.rsvp_attending && thanks">
+            <p>Thank you for letting us know. We're looking forward to you being part of our celebration! For more information, photos and directions to Zocalo Organics farm, please see our <a href="/">main page</a>.</p>
+            <p>If you have any further questions or accessibility concerns, please send us an email at <a href="mailto:hello@s-k.wedding">hello@s-k.wedding</a></p>
+            <a href="/" class="ui button basic primary">< Return to Main Page</a>
           </div>
         </div>
       </form>

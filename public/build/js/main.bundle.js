@@ -5,9 +5,23 @@ new Vue({
   data: {
     party: null,
     loading: true,
-    saving: null
+    saving: null,
+    thanks: false
   },
   methods: {
+    partyAttending: function partyAttending() {
+      this.party.rsvp_attending = true;
+      this.party.guests.forEach(function (guest) {
+        guest.attending = true;
+      });
+    },
+    partyNotAttending: function partyNotAttending() {
+      // this.party.rsvp_attending = false;
+      this.party.guests.forEach(function (guest) {
+        guest.attending = false;
+      });
+      this.submit();
+    },
     addGuest: function addGuest(e) {
       if (this.party.guests.length < this.party.max_guests) {
         var guest = {
@@ -17,7 +31,7 @@ new Vue({
           breakfast: false,
           dietary: "",
           attending: true,
-          temp_added: true
+          manually_added: true
         };
         this.party.guests.push(guest);
       }
@@ -32,10 +46,12 @@ new Vue({
         this.saving = true;
         axios.put("/api/parties/" + this.party._id, this.party).then(function (res) {
           if (res.data.saved) {
+            _this.party.rsvp_attending = false;
+            _this.party.guests.forEach(function (guest) {
+              if (guest.attending) _this.party.rsvp_attending = true;
+            });
             _this.saving = false;
-            setTimeout(function () {
-              this.saving = null;
-            }.bind(_this), 5000);
+            _this.thanks = true;
           }
         }).catch(function (err) {
           console.error(err);
@@ -54,7 +70,14 @@ new Vue({
     axios
     // ASSUMPTION: the pathname will always be "/{party_slug}"
     .get("/api/parties" + location.pathname).then(function (res) {
-      if (res.data !== null) _this2.party = res.data;
+      if (res.data !== null) {
+        _this2.party = res.data;
+        if (_this2.party.rsvp_saved) {
+          _this2.party.guests.forEach(function (guest) {
+            if (guest.attending) _this2.party.rsvp_attending = true;
+          });
+        }
+      };
       _this2.loading = false;
     });
   }

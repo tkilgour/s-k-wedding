@@ -15,6 +15,7 @@ var PartiesSchema = new Schema({
 	maxGuests: Number,
 	potluck: Boolean,
 	rsvp_opened: Boolean,
+	rsvp_attending: Schema.Types.Mixed,
 	rsvp_saved: Boolean,
 	guests: [
 		{
@@ -23,7 +24,8 @@ var PartiesSchema = new Schema({
       attending: Boolean,
       camping: Boolean,
       breakfast: Boolean,
-      dietary: String
+			dietary: String,
+			manually_added: Boolean
 		}
 	]
 });

@@ -33,6 +33,9 @@ app
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
+// simulate server latency
+// app.use((req, res, next) => setTimeout(next, 1000))
+
 app
   // Home
   .get("/", (req, res) => res.render("pages/index"))
@@ -73,6 +76,7 @@ router
 
       req.body.guests ? (party.guests = req.body.guests) : null;
       party.potluck = req.body.potluck;
+      // if (req.body.rsvp_attending) party.rsvp_attending = true;
       party.rsvp_saved = true;
 
       party.save(function(err) {

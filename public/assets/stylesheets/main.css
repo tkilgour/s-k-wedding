@@ -204,6 +204,18 @@ p.small {
   text-align: left;
 }
 
+#rsvp .name {
+  text-align: center;
+  color: #6b8ca5;
+  margin-top: 0;
+  margin-bottom: 24px;
+}
+
+#rsvp .pinecone {
+  height: 80px;
+  margin-bottom: 0;
+}
+
 .ui.grid > .eight.wide.column:nth-child(1) {
   padding-right: 0.5rem;
 }
@@ -215,10 +227,10 @@ p.small {
 h1.ui.header {
   margin-top: 0 !important;
 }
-
+/* 
 #add-guest {
   margin-bottom: 20px;
-}
+} */
 
 .text-center {
   text-align: center;
@@ -228,17 +240,38 @@ h1.ui.header {
   margin-top: 24px;
 }
 
+.inline.fields {
+  margin-bottom: 0 !important;
+}
+
 @media (max-width: 640px) {
   .ui.form .inline.fields .field {
     padding-right: 0.9em !important;
   }
+
+  #rsvp .pinecone {
+    height: 60px;
+  }
+
+  #rsvp .name {
+    margin-bottom: 12px;
+  }
+}
+
+button.ui.basic.button, a.ui.basic.button {
+  background-color: #ffffff !important;
+}
+
+#rsvp button.ui.basic.button:hover, #rsvp a.ui.basic.button:hover, #rsvp button.ui.basic.button:focus, #rsvp a.ui.basic.button:focus {
+background-color: #f5f5f5 !important;
 }
 
 #submit {
+  margin-top: 12px;
   background-color: #648fa8;
 }
 
-#submit:hover {
+#submit:hover, #submit:focus {
   background-color: #456779;
 }
 

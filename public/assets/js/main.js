@@ -3,9 +3,23 @@ new Vue({
   data: {
     party: null,
     loading: true,
-    saving: null
+    saving: null,
+    thanks: false
   },
   methods: {
+    partyAttending: function() {
+      this.party.rsvp_attending = true;
+      this.party.guests.forEach(guest => {
+        guest.attending = true;
+      });
+    },
+    partyNotAttending: function() {
+      // this.party.rsvp_attending = false;
+      this.party.guests.forEach(guest => {
+        guest.attending = false;
+      });
+      this.submit()
+    },
     addGuest: function(e) {
       if (this.party.guests.length < this.party.max_guests) {
         var guest = {
@@ -15,7 +29,7 @@ new Vue({
           breakfast: false,
           dietary: "",
           attending: true,
-          temp_added: true
+          manually_added: true
         };
         this.party.guests.push(guest);
       }
@@ -30,8 +44,13 @@ new Vue({
           .put("/api/parties/" + this.party._id, this.party)
           .then(res => {
             if (res.data.saved) {
+              this.party.rsvp_attending = false;
+              this.party.guests.forEach(guest => {
+                if (guest.attending) this.party.rsvp_attending = true;
+              });
               this.saving = false;
-              setTimeout(function() { this.saving = null; }.bind(this), 5000)
+              this.thanks = true;
+              
             }
           })
           .catch(err => {
@@ -50,7 +69,14 @@ new Vue({
       // ASSUMPTION: the pathname will always be "/{party_slug}"
       .get("/api/parties" + location.pathname)
       .then(res => {
-        if (res.data !== null) this.party = res.data;
+        if (res.data !== null) {
+          this.party = res.data
+          if (this.party.rsvp_saved) {
+            this.party.guests.forEach(guest => {
+              if (guest.attending) this.party.rsvp_attending = true;
+            });
+          }
+        };
         this.loading = false;
       })
   }
