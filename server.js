@@ -6,6 +6,7 @@ const mongoose = require("mongoose");
 const path = require("path");
 const bodyParser = require("body-parser");
 const PushBullet = require("pushbullet");
+const basicAuth = require("express-basic-auth");
 const Party = require("./party_schema");
 
 //and create our instances
@@ -32,6 +33,10 @@ app
 //now we should configure the API to use bodyParser and look for JSON data in the request body
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+app.use("/admin", basicAuth({
+  users: { "admin": process.env.AUTH_PASS },
+  challenge: true
+}))
 
 // simulate server latency
 // app.use((req, res, next) => setTimeout(next, 1000))
@@ -40,10 +45,21 @@ app
   // Home
   .get("/", (req, res) => res.render("pages/index"))
 
+  // Admin
+  .get("/admin", (req, res) => res.render("pages/admin"))
+  
   // RSVP
   .get("/:party", (req, res) => res.render("pages/rsvp"))
 
 // API
+
+// get all parties
+router.get("/parties", (req, res) => {
+  Party.find({}, (err, parties)  => {
+    res.json(parties)
+  })
+})
+
 router
   .route("/parties/:query")
 

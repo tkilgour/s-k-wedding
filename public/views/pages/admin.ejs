@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <% include ../partials/header.ejs %>
+</head>
+
+<body class="admin">
+  <main>
+    <div id="admin" class="info-container" style="padding-top: 100px;">
+      <div v-show="loading" class="ui centered inline loader active large"></div>
+      <p v-show="parties.length > 0">Number of Parties: {{ parties.length }}</p>
+      <p v-show="parties.length > 0">Number Opened: {{ numOpened }}</p>
+    </div>
+  </main>
+</body>
+<script src="/assets/js/admin.js"></script>
+</html>
