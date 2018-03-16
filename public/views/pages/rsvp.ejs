@@ -21,7 +21,7 @@
           <div v-if="party.rsvp_attending === null">
             <p>We would love you to be part of our Guelph wedding celebration on Aug. 11, 2018. Is your party able to attend?</p>
             <div class="text-center">
-              <button @click.prevent="partyAttending" class="ui button primary basic">Yes, we'll be attending!</button>
+              <button @click.prevent="partyAttending" class="ui button primary basic" id="attending-button">Yes, we'll be attending!</button>
               <button @click.prevent="partyNotAttending" v-bind:class="[saving ? 'loading' : '' ,'ui button negative basic']">Unfortunately, we can't make it</button>
             </div>
           </div>

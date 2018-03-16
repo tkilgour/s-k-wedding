@@ -28,7 +28,7 @@ body.std {
 
 html, body.rsvp {
   /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#9abfd9+0,ccdfec+36,ffffff+100 */
-  background-color: #9abfd9;
+  /* background-color: #9abfd9; */
   background-image: -webkit-linear-gradient(top, #9abfd9 0%, #ccdfec 36%, #ffffff 100%);
   background-image: -moz-linear-gradient(top, #9abfd9 0%, #ccdfec 36%, #ffffff 100%);
   background-image: -o-linear-gradient(top, #9abfd9 0%, #ccdfec 36%, #ffffff 100%);
@@ -256,6 +256,10 @@ h1.ui.header {
   #rsvp .name {
     margin-bottom: 12px;
   }
+}
+
+#attending-button {
+  margin-bottom: 1em;
 }
 
 button.ui.basic.button, a.ui.basic.button {
