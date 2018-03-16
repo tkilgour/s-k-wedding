@@ -279,7 +279,7 @@ background-color: #f5f5f5 !important;
   background-color: #456779;
 }
 
-@media (min-width: 640px) {
+/* @media (min-width: 640px) { */
   #rsvp p {
     font-size: 16px;
   }
@@ -287,4 +287,4 @@ background-color: #f5f5f5 !important;
   .ui.checkbox.large {
     font-size: 16px !important;
   }
-}
+/* } */
