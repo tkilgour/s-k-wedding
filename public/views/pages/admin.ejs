@@ -8,9 +8,14 @@
 <body class="admin">
   <main>
     <div id="admin" class="info-container" style="padding-top: 100px;">
+      <h3>Parties</h3>
       <div v-show="loading" class="ui centered inline loader active large"></div>
-      <p v-show="parties.length > 0">Number of Parties: {{ parties.length }}</p>
-      <p v-show="parties.length > 0">Number Opened: {{ numOpened }}</p>
+      <p v-show="parties.length > 0">Parties Invited: {{ parties.length }}</p>
+      <p v-show="parties.length > 0">Invitations Opened: {{ numOpened }}</p>
+      <p v-show="parties.length > 0">Invitations Saved: {{ numSaved }}</p>
+      <h3>Guests</h3>
+      <p v-show="parties.length > 0">Confirmed Attending: {{ confirmedAttending }}</p>
+      <p v-show="parties.length > 0">Confirmed Not Attending: {{ confirmedNotAttending }}</p>
     </div>
   </main>
 </body>

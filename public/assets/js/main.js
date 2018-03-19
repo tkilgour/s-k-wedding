@@ -1,4 +1,8 @@
-new Vue({
+window.onpopstate = function() {
+  vm.$forceUpdate();
+}
+
+let vm = new Vue({
   el: "#rsvp",
   data: {
     party: null,
@@ -7,8 +11,12 @@ new Vue({
     thanks: false
   },
   methods: {
+    getHash: function() {
+      return window.location.hash;
+    },
     partyAttending: function() {
-      this.party.rsvp_attending = true;
+      // this.party.rsvp_attending = true;
+      window.location.hash = "attending";
       this.party.guests.forEach(guest => {
         guest.attending = true;
       });
@@ -18,7 +26,7 @@ new Vue({
       this.party.guests.forEach(guest => {
         guest.attending = false;
       });
-      this.submit()
+      this.submit();
     },
     addGuest: function(e) {
       if (this.party.guests.length < this.party.max_guests) {
@@ -49,13 +57,13 @@ new Vue({
                 if (guest.attending) this.party.rsvp_attending = true;
               });
               this.saving = false;
+              window.location.hash = "thanks";
               this.thanks = true;
-              
             }
           })
           .catch(err => {
             console.error(err);
-          })
+          });
       }
     }
   },
@@ -70,14 +78,15 @@ new Vue({
       .get("/api/parties" + location.pathname)
       .then(res => {
         if (res.data !== null) {
-          this.party = res.data
+          this.party = res.data;
           if (this.party.rsvp_saved) {
+            this.party.rsvp_attending = false;
             this.party.guests.forEach(guest => {
               if (guest.attending) this.party.rsvp_attending = true;
             });
           }
-        };
+        }
         this.loading = false;
-      })
+      });
   }
 });

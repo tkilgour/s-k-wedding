@@ -1,6 +1,10 @@
 "use strict";
 
-new Vue({
+window.onpopstate = function () {
+  vm.$forceUpdate();
+};
+
+var vm = new Vue({
   el: "#rsvp",
   data: {
     party: null,
@@ -9,8 +13,12 @@ new Vue({
     thanks: false
   },
   methods: {
+    getHash: function getHash() {
+      return window.location.hash;
+    },
     partyAttending: function partyAttending() {
-      this.party.rsvp_attending = true;
+      // this.party.rsvp_attending = true;
+      window.location.hash = "attending";
       this.party.guests.forEach(function (guest) {
         guest.attending = true;
       });
@@ -51,6 +59,7 @@ new Vue({
               if (guest.attending) _this.party.rsvp_attending = true;
             });
             _this.saving = false;
+            window.location.hash = "thanks";
             _this.thanks = true;
           }
         }).catch(function (err) {
@@ -73,11 +82,12 @@ new Vue({
       if (res.data !== null) {
         _this2.party = res.data;
         if (_this2.party.rsvp_saved) {
+          _this2.party.rsvp_attending = false;
           _this2.party.guests.forEach(function (guest) {
             if (guest.attending) _this2.party.rsvp_attending = true;
           });
         }
-      };
+      }
       _this2.loading = false;
     });
   }
