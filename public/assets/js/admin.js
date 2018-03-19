@@ -3,6 +3,7 @@ let vm = new Vue({
   data: {
     loading: true,
     parties: [],
+    saved_guests: [],
     admin: "Thomas"
   },
   methods: {
@@ -22,27 +23,17 @@ let vm = new Vue({
     numSaved: function() {
       return this.getSavedParties().length;
     },
-    confirmedAttending: function() {
-      let numAttending = 0;
-
-      this.getSavedParties().forEach(party => {
-        party.guests.forEach(guest => {
-          if (guest.attending) numAttending++;
-        })
-      });
-
-      return numAttending;
+    numPotluck: function() {
+      return this.getSavedParties().filter(party => party.potluck).length;
     },
-    confirmedNotAttending: function() {
-      let numNotAttending = 0;
-
-      this.getSavedParties().forEach(party => {
-        party.guests.forEach(guest => {
-          if (!guest.attending) numNotAttending++;
-        })
-      });
-
-      return numNotAttending;
+    totalAttending: function() {
+      return this.saved_guests.filter(guest => guest.attending).length
+    },
+    totalCamping: function() {
+      return this.saved_guests.filter(guest => guest.camping).length
+    },
+    totalBreakfast: function() {
+      return this.saved_guests.filter(guest => guest.breakfast).length
     }
   },
   mounted() {
@@ -53,7 +44,13 @@ let vm = new Vue({
         if (res.data !== null) {
           this.parties = res.data;
         }
-        this.loading = false;
       });
+
+    axios.get("/api/guests/saved").then(res => {
+      if (res.data !== null) {
+        this.saved_guests = res.data;
+      }
+      this.loading = false;
+    });
   }
 });

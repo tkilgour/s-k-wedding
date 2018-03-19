@@ -7,17 +7,62 @@
 
 <body class="admin">
   <main>
-    <div id="admin" class="info-container" style="padding-top: 100px;">
-      <h3>Parties</h3>
-      <div v-show="loading" class="ui centered inline loader active large"></div>
-      <p v-show="parties.length > 0">Parties Invited: {{ parties.length }}</p>
-      <p v-show="parties.length > 0">Invitations Opened: {{ numOpened }}</p>
-      <p v-show="parties.length > 0">Invitations Saved: {{ numSaved }}</p>
-      <h3>Guests</h3>
-      <p v-show="parties.length > 0">Confirmed Attending: {{ confirmedAttending }}</p>
-      <p v-show="parties.length > 0">Confirmed Not Attending: {{ confirmedNotAttending }}</p>
+    <div id="admin" class="info-container" style="padding-top: 20px;">
+      <h2>Parties</h2>
+      <div v-if="loading" class="ui centered inline loader active large"></div>
+      <div v-else>
+        <p v-show="parties.length > 0">Parties Invited: {{ parties.length }}</p>
+        <p v-show="parties.length > 0">Invitations Opened: {{ numOpened }}</p>
+        <p v-show="parties.length > 0">Invitations Saved: {{ numSaved }}</p>
+        <p v-show="parties.length > 0">Potluck Contributions: {{ numPotluck }}</p>
+        <h2>Confirmed Guests</h2>
+        <table class="ui celled table">
+          <thead>
+            <tr>
+              <th>First Name</th>
+              <th>Last Name</th>
+              <th>Attending</th>
+              <th>Camping</th>
+              <th>Breakfast</th>
+              <th>Dietaries</th>
+            </tr>
+            <tr>
+              <th rowspan="2"><strong>Totals</strong></th>
+              <th>Yes</th>
+              <th class="center aligned">{{ totalAttending }}</th>
+              <th class="center aligned">{{ totalCamping }}</th>
+              <th class="center aligned">{{ totalBreakfast }}</th>
+              <th></th>
+            </tr>
+            <tr>
+              <th style="border-left: 1px solid rgba(34,36,38,.1)">No</th>
+              <th class="center aligned">{{ saved_guests.length - totalAttending }}</th>
+              <th class="center aligned">{{ saved_guests.length - totalCamping }}</th>
+              <th class="center aligned">{{ saved_guests.length - totalBreakfast }}</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="guest of saved_guests">
+              <td>{{ guest.first_name }}</td>
+              <td>{{ guest.last_name }}</td>
+              <td class="center aligned">
+                <i :class="[ guest.attending ? 'large green check' : 'large red close' ,'icon']"></i>
+              </td>
+              <td class="center aligned">
+                <i :class="[ guest.camping ? 'large green check' : 'large red close' ,'icon']"></i>
+              </td>
+              <td class="center aligned">
+                <i :class="[ guest.breakfast ? 'large green check' : 'large red close' ,'icon']"></i>
+              </td>
+              <td>{{ guest.dietary }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   </main>
 </body>
 <script src="/assets/js/admin.js"></script>
+
 </html>

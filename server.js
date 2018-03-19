@@ -104,6 +104,36 @@ router
     });
   });
 
+router.get('/guests', (req, res) => {
+  Party.find({}, (err, parties) => {
+    if (err) console.error(err);
+
+    let guests = []
+
+    parties.forEach(party => {
+      guests = guests.concat(party.guests);
+    })
+    
+    res.json(guests);
+  })
+})
+  
+router.get('/guests/saved', (req, res) => {
+  Party.find({}, (err, parties) => {
+    if (err) console.error(err);
+
+    let guests = []
+
+    parties.forEach(party => {
+      if (party.rsvp_saved) {
+        guests = guests.concat(party.guests);
+      }
+    })
+    
+    res.json(guests);
+  })
+})
+  
 //Use our router configuration when we call /api
 app.use("/api", router);
 
