@@ -26,7 +26,7 @@ body.std {
   background-color: #aacee3;
 }
 
-html, body.rsvp {
+html, body.rsvp, body.admin {
   /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#9abfd9+0,ccdfec+36,ffffff+100 */
   /* background-color: #9abfd9; */
   background-image: -webkit-linear-gradient(top, #9abfd9 0%, #ccdfec 36%, #ffffff 100%);
