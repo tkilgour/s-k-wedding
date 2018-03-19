@@ -26,7 +26,7 @@
             </div>
           </div>
           <div v-if="party.rsvp_attending && !thanks" class="attending">
-            <p>We are very excited to have you be part of our wedding celebration! Please use the form below to send us your RSVP details. Everyone is welcome to camp overnight on the farm. We’ll serve a simple breakfast in the morning for the campers, but anyone else is welcome to return for this as well. Again, just indicate your preference below. <strong>Questions?</strong> Email: <a href="mailto:hello@s-k.wedding">hello@s-k.wedding</a>.</p>
+            <p>We are very excited to have you be part of our wedding celebration! Please use the form below to send us your RSVP details. Everyone is welcome to camp overnight on the farm. We’ll serve a simple breakfast in the morning for the campers, but non-campers can attend this as well. <strong>Questions?</strong> Email: <a href="mailto:hello@s-k.wedding">hello@s-k.wedding</a></p>
             <h3 class="ui header">Guests</h3>
               <div class="ui divider"></div>
               <div v-for="(guest, i) in party.guests">
@@ -103,5 +103,5 @@
   </main>
   <footer class="grass"></footer>
 </body>
-<script src="/build/js/main.bundle.js"></script>
+<script src="/assets/js/main.js"></script>
 </html>
