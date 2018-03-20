@@ -15,18 +15,32 @@ let vm = new Vue({
       return window.location.hash;
     },
     partyAttending: function() {
-      // this.party.rsvp_attending = true;
       window.location.hash = "attending";
       this.party.guests.forEach(guest => {
         guest.attending = true;
       });
     },
     partyNotAttending: function() {
-      // this.party.rsvp_attending = false;
       this.party.guests.forEach(guest => {
         guest.attending = false;
+        guest.camping = false;
+        guest.breakfast = false;
       });
+      this.party.potluck = false;
       this.submit();
+    },
+    partyAttendanceCheck(party) {
+      let attending = false;
+      party.guests.forEach(guest => {
+        if (guest.attending) attending = true;
+      });
+      return attending;
+    },
+    guestAttendance: function(guest) {
+      if (guest.attending) {
+        guest.camping = false;
+        guest.breakfast = false;
+      }
     },
     addGuest: function(e) {
       if (this.party.guests.length < this.party.max_guests) {
@@ -48,6 +62,7 @@ let vm = new Vue({
     submit: function(e) {
       if (this.party) {
         this.saving = true;
+        if (!this.partyAttendanceCheck(this.party)) this.party.potluck = false;
         axios
           .put("/api/parties/" + this.party._id, this.party)
           .then(res => {

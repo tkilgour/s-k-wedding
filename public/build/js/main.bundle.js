@@ -17,18 +17,33 @@ var vm = new Vue({
       return window.location.hash;
     },
     partyAttending: function partyAttending() {
-      // this.party.rsvp_attending = true;
       window.location.hash = "attending";
       this.party.guests.forEach(function (guest) {
         guest.attending = true;
       });
     },
     partyNotAttending: function partyNotAttending() {
-      // this.party.rsvp_attending = false;
       this.party.guests.forEach(function (guest) {
         guest.attending = false;
+        guest.camping = false;
+        guest.breakfast = false;
       });
+      this.party.potluck = false;
       this.submit();
+    },
+    partyAttendanceCheck: function partyAttendanceCheck(party) {
+      var attending = false;
+      party.guests.forEach(function (guest) {
+        if (guest.attending) attending = true;
+      });
+      return attending;
+    },
+
+    guestAttendance: function guestAttendance(guest) {
+      if (guest.attending) {
+        guest.camping = false;
+        guest.breakfast = false;
+      }
     },
     addGuest: function addGuest(e) {
       if (this.party.guests.length < this.party.max_guests) {
@@ -52,6 +67,7 @@ var vm = new Vue({
 
       if (this.party) {
         this.saving = true;
+        if (!this.partyAttendanceCheck(this.party)) this.party.potluck = false;
         axios.put("/api/parties/" + this.party._id, this.party).then(function (res) {
           if (res.data.saved) {
             _this.party.rsvp_attending = false;

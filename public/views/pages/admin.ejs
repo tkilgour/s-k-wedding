@@ -11,7 +11,6 @@
       <div v-if="loading" class="ui centered inline loader active large"></div>
       <div v-else>
         <h2>Parties</h2>
-        <p v-show="parties.length > 0">Potluck Contributions: {{ numPotluck }}</p>
         <div class="ui top attached tabular menu">
           <a @click="active_tab = 'first'" :class="['item', active_tab == 'first' ? 'active' : '']">Saved</a>
           <a @click="active_tab = 'second'" :class="['item', active_tab == 'second' ? 'active' : '']">Opened & Not Saved</a>
@@ -40,8 +39,9 @@
               </tr>
             </tbody>
           </table>
-          <p v-show="parties.length > 0"><strong>Total: {{ partiesSaved.length }}</strong></p>
-        </div>
+          <p v-show="parties.length > 0"><strong>Total Saved: {{ partiesSaved.length }}</strong></p>
+          <p v-show="parties.length > 0">Potluck Contributions: {{ numPotluck }}</p>
+      </div>
         <div :class="['ui bottom attached tab segment', active_tab == 'second' ? 'active' : '']">
           <table class="ui celled table">
             <thead>
@@ -57,7 +57,7 @@
               </tr>
             </tbody>
           </table>
-          <p v-show="parties.length > 0">{{ partiesOpenedNotSaved.length }}</p>
+          <p v-show="parties.length > 0"><strong>Total: {{ partiesOpenedNotSaved.length }}</strong></p>
         </div>
         <div :class="['ui bottom attached tab segment', active_tab == 'third' ? 'active' : '']">
           <table class="ui celled table">
@@ -74,14 +74,14 @@
               </tr>
             </tbody>
           </table>
-          <p v-show="parties.length > 0">{{ partiesNotOpened.length }}</p>
+          <p v-show="parties.length > 0"><strong>Total: {{ partiesNotOpened.length }}</strong></p>
         </div>
         <h2>Confirmed Guests</h2>
         <table class="ui celled table">
           <thead>
             <tr>
-              <th>First Name</th>
-              <th>Last Name</th>
+              <th></th>
+              <th></th>
               <th>Attending</th>
               <th>Camping</th>
               <th>Breakfast</th>
@@ -100,6 +100,14 @@
               <th class="center aligned">{{ saved_guests.length - totalAttending }}</th>
               <th class="center aligned">{{ saved_guests.length - totalCamping }}</th>
               <th class="center aligned">{{ saved_guests.length - totalBreakfast }}</th>
+              <th></th>
+            </tr>
+            <tr>
+              <th>First Name</th>
+              <th>Last Name</th>
+              <th></th>
+              <th></th>
+              <th></th>
               <th></th>
             </tr>
           </thead>

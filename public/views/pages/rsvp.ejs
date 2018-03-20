@@ -46,20 +46,20 @@
                 <div class="sixteen wide column">
                   <div class="inline fields">
                     <div class="field">
-                      <div class="ui checkbox">
+                      <div @click="guestAttendance(guest)" class="ui checkbox">
                         <input :id=i+"attending" type="checkbox" v-model="guest.attending">
                         <label :for=i+"attending">Attending</label>
                       </div>
                     </div>
                     <div class="field">
                       <div class="ui checkbox">
-                        <input :id=i+"camping" type="checkbox" v-model="guest.camping">
+                        <input :disabled="!guest.attending" :id=i+"camping" type="checkbox" v-model="guest.camping">
                         <label :for=i+"camping">Camping</label>
                       </div>
                     </div>
                     <div class="field">
                       <div class="ui checkbox">
-                        <input :id=i+"breakfast" type="checkbox" v-model="guest.breakfast">
+                        <input :disabled="!guest.attending" :id=i+"breakfast" type="checkbox" v-model="guest.breakfast">
                         <label :for=i+"breakfast">Breakfast</label>
                       </div>
                     </div>
@@ -68,7 +68,7 @@
                 <div class="twelve wide column">                  
                   <div class="field">
                     <label :for=i+"dietary">Allergies/Dietary Restrictions</label>
-                    <input :id=i+"dietary" type="text" placeholder="Allergies/Dietary Restrictions" v-model="guest.dietary">
+                    <input :disabled="!guest.attending" :id=i+"dietary" type="text" placeholder="Allergies/Dietary Restrictions" v-model="guest.dietary">
                   </div>
                   <button v-show="guest.manually_added" @click.prevent="removeGuest(i)" class="ui button negative basic" id="remove-guest">Remove Guest</button>
                 </div>
