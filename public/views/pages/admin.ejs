@@ -8,13 +8,74 @@
 <body class="admin">
   <main>
     <div id="admin" class="info-container" style="padding-top: 20px;">
-      <h2>Parties</h2>
       <div v-if="loading" class="ui centered inline loader active large"></div>
       <div v-else>
-        <p v-show="parties.length > 0">Parties Invited: {{ parties.length }}</p>
-        <p v-show="parties.length > 0">Invitations Opened: {{ numOpened }}</p>
-        <p v-show="parties.length > 0">Invitations Saved: {{ numSaved }}</p>
+        <h2>Parties</h2>
         <p v-show="parties.length > 0">Potluck Contributions: {{ numPotluck }}</p>
+        <div class="ui top attached tabular menu">
+          <a @click="active_tab = 'first'" :class="['item', active_tab == 'first' ? 'active' : '']">Saved</a>
+          <a @click="active_tab = 'second'" :class="['item', active_tab == 'second' ? 'active' : '']">Opened & Not Saved</a>
+          <a @click="active_tab = 'third'" :class="['item', active_tab == 'third' ? 'active' : '']">Unopened</a>
+        </div>
+        <div :class="['ui bottom attached tab segment', active_tab == 'first' ? 'active' : '']">
+          <table class="ui celled table">
+            <thead>
+              <tr>
+                <th>Party Name</th>
+                <th>Party Slug</th>
+                <th>Attending</th>
+                <th>Potluck</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="party of partiesSaved">
+                <td>{{ party.party_name }}</td>
+                <td>{{ party.party_slug }}</td>
+                <td class="center aligned">
+                  <i :class="[ partyAttending(party) ? 'large green check' : 'large red close' ,'icon']"></i>
+                </td>
+                <td class="center aligned">
+                  <i :class="[ party.potluck ? 'large green check' : 'large red close' ,'icon']"></i>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <p v-show="parties.length > 0"><strong>Total: {{ partiesSaved.length }}</strong></p>
+        </div>
+        <div :class="['ui bottom attached tab segment', active_tab == 'second' ? 'active' : '']">
+          <table class="ui celled table">
+            <thead>
+              <tr>
+                <th>Party Name</th>
+                <th>Party Slug</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="party of partiesOpenedNotSaved">
+                <td>{{ party.party_name }}</td>
+                <td>{{ party.party_slug }}</td>
+              </tr>
+            </tbody>
+          </table>
+          <p v-show="parties.length > 0">{{ partiesOpenedNotSaved.length }}</p>
+        </div>
+        <div :class="['ui bottom attached tab segment', active_tab == 'third' ? 'active' : '']">
+          <table class="ui celled table">
+            <thead>
+              <tr>
+                <th>Party Name</th>
+                <th>Party Slug</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="party of partiesNotOpened">
+                <td>{{ party.party_name }}</td>
+                <td>{{ party.party_slug }}</td>
+              </tr>
+            </tbody>
+          </table>
+          <p v-show="parties.length > 0">{{ partiesNotOpened.length }}</p>
+        </div>
         <h2>Confirmed Guests</h2>
         <table class="ui celled table">
           <thead>

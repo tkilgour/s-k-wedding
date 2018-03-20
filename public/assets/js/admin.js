@@ -4,24 +4,38 @@ let vm = new Vue({
     loading: true,
     parties: [],
     saved_guests: [],
-    admin: "Thomas"
+    admin: "Thomas",
+    active_tab: "first"
   },
   methods: {
     getSavedParties() {
       return this.parties.filter(party => {
         return party.rsvp_saved;
       });
+    },
+    partyAttending(party) {
+      let attending = false;
+      party.guests.forEach(guest => {
+        if (guest.attending) attending = true;
+      });
+      return attending;
     }
   },
   computed: {
-    numOpened: function() {
-      let parties_opened = this.parties.filter(party => {
-        return party.rsvp_opened;
-      });
-      return parties_opened.length;
+    partiesNotOpened: function() {
+      let parties_not_opened = this.parties.filter(party => {
+        return (!party.rsvp_opened && !party.rsvp_saved);
+      })
+      return parties_not_opened;
     },
-    numSaved: function() {
-      return this.getSavedParties().length;
+    partiesOpenedNotSaved: function() {
+      let parties_opened = this.parties.filter(party => {
+        return (party.rsvp_opened && !party.rsvp_saved);
+      });
+      return parties_opened;
+    },
+    partiesSaved: function() {
+      return this.getSavedParties();
     },
     numPotluck: function() {
       return this.getSavedParties().filter(party => party.potluck).length;
@@ -34,7 +48,8 @@ let vm = new Vue({
     },
     totalBreakfast: function() {
       return this.saved_guests.filter(guest => guest.breakfast).length
-    }
+    },
+
   },
   mounted() {
     axios
