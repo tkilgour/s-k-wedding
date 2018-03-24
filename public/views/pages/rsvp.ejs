@@ -18,14 +18,15 @@
       <form class="ui form" v-if="party">
         <div class="ui basic segment">
           <h2 class="ui header centered">{{ party.party_name }}</h2>
-          <div v-show="(getHash() !== '#attending') && (getHash() !== '#thanks')">
+          <transition name="fade" mode="out-in" appear>
+            <div v-if="(getHash() !== '#attending') && (getHash() !== '#thanks')" key="welcome">
             <p>We would love you to be part of our Guelph wedding celebration on Aug.&nbsp;11,&nbsp;2018. <span v-if="party.guests.length > 1">Is your party</span><span v-else>Are you</span> able to attend?</p>
             <div class="text-center">
               <button @click.prevent="partyAttending" class="ui button primary basic" id="attending-button">Yes, <span v-if="party.guests.length > 1">we'll</span><span v-else>I'll</span> be attending!</button>
               <button @click.prevent="partyNotAttending" v-bind:class="[saving ? 'loading' : '' ,'ui button negative basic']">Unfortunately, <span v-if="party.guests.length > 1">we</span><span v-else>I</span> can't make it</button>
             </div>
           </div>
-          <div v-show="getHash() == '#attending'" class="attending">
+            <div v-if="getHash() == '#attending'" class="attending" key="attending">
             <p>We are very excited to have you be part of our wedding celebration! Please use the form below to send us your RSVP details. Everyone is welcome to camp overnight on the farm. We’ll serve a simple breakfast in the morning for the campers, but non-campers can attend as well. <strong>Questions?</strong> Email: <a href="mailto:hello@s-k.wedding">hello@s-k.wedding</a></p>
             <h3 class="ui header">Guests</h3>
               <div class="ui divider"></div>
@@ -97,6 +98,7 @@
             <p>If you have any further questions or accessibility concerns, please send us an email at <a href="mailto:hello@s-k.wedding">hello@s-k.wedding</a></p>
             <a href="/" class="ui button basic primary">< Return to Main Page</a>
           </div>
+          </transition>
         </div>
       </form>
     </div>
