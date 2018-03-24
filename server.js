@@ -33,7 +33,8 @@ app
 //now we should configure the API to use bodyParser and look for JSON data in the request body
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-app.use("/admin", basicAuth({
+// TODO: change route to /admin before launch
+app.use("/", basicAuth({
   users: { "admin": process.env.AUTH_PASS },
   challenge: true
 }))
