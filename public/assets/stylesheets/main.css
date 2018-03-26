@@ -367,7 +367,17 @@ background-color: #f5f5f5 !important;
   max-width: 100%;
 }
 
+.hlf iframe {
+  max-width: 100%;
+}
+
 .home .email-link {
   margin: 36px 0;
   text-align: center;
+}
+
+@media (min-width: 640px) {
+  .mobile-only {
+    display: none;
+  }
 }
