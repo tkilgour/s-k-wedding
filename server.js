@@ -7,7 +7,7 @@ const path = require("path");
 const bodyParser = require("body-parser");
 const PushBullet = require("pushbullet");
 const basicAuth = require("express-basic-auth");
-const sslRedirect = require("heroku-ssl-redirect");
+const enforce = require('express-sslify');
 const Party = require("./party_schema");
 
 //and create our instances
@@ -25,7 +25,7 @@ mongoose.connect(
   `mongodb://${user}:${pass}@ds117888.mlab.com:17888/wedding-management`
 );
 
-// app.use(sslRedirect());
+app.use(enforce.HTTPS({ trustProtoHeader: true }));
 
 // Setup static server
 app
