@@ -7,6 +7,7 @@ const path = require("path");
 const bodyParser = require("body-parser");
 const PushBullet = require("pushbullet");
 const basicAuth = require("express-basic-auth");
+const sslRedirect = require("heroku-ssl-redirect");
 const Party = require("./party_schema");
 
 //and create our instances
@@ -24,20 +25,25 @@ mongoose.connect(
   `mongodb://${user}:${pass}@ds117888.mlab.com:17888/wedding-management`
 );
 
+app.use(sslRedirect());
+
 // Setup static server
 app
   .use(express.static(path.join(__dirname, "public")))
   .set("views", path.join(__dirname, "public/views"))
-  .set("view engine", "ejs")
+  .set("view engine", "ejs");
 
 //now we should configure the API to use bodyParser and look for JSON data in the request body
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 // TODO: change route to /admin before launch
-app.use("/", basicAuth({
-  users: { "admin": process.env.AUTH_PASS },
-  challenge: true
-}))
+app.use(
+  "/",
+  basicAuth({
+    users: { admin: process.env.AUTH_PASS },
+    challenge: true
+  })
+);
 
 // simulate server latency
 // app.use((req, res, next) => setTimeout(next, 1000))
@@ -48,36 +54,41 @@ app
 
   // Admin
   .get("/admin", (req, res) => res.render("pages/admin"))
-  
+
   // RSVP
-  .get("/:party", (req, res) => res.render("pages/rsvp"))
+  .get("/:party", (req, res) => res.render("pages/rsvp"));
 
 // API
 
 // get all parties
 router.get("/parties", (req, res) => {
-  Party.find({}, (err, parties)  => {
-    res.json(parties)
-  })
-})
+  Party.find({}, (err, parties) => {
+    res.json(parties);
+  });
+});
 
 router
   .route("/parties/:query")
 
   // get specific Party from DB
   .get(function(req, res) {
-
-    Party.findOne({ party_slug: req.params.query.toLowerCase() }, function(err, party) {
+    Party.findOne({ party_slug: req.params.query.toLowerCase() }, function(
+      err,
+      party
+    ) {
       if (err) res.send(err);
 
       if (party) {
         party.rsvp_opened = true;
-        
+
         party.save(function(err) {
           if (err) res.send(err);
-          
-          pusher.note(process.env.PB_PHONE_TOKEN, `"${party.party_name}" visited their RSVP page`);
-        })
+
+          pusher.note(
+            process.env.PB_PHONE_TOKEN,
+            `"${party.party_name}" visited their RSVP page`
+          );
+        });
       }
 
       res.json(party);
@@ -99,42 +110,45 @@ router
       party.save(function(err) {
         if (err) res.send(err);
 
-        pusher.note(process.env.PB_PHONE_TOKEN, `"${party.party_name}" updated their RSVP`);
+        pusher.note(
+          process.env.PB_PHONE_TOKEN,
+          `"${party.party_name}" updated their RSVP`
+        );
         res.json({ saved: true });
       });
     });
   });
 
-router.get('/guests', (req, res) => {
+router.get("/guests", (req, res) => {
   Party.find({}, (err, parties) => {
     if (err) console.error(err);
 
-    let guests = []
+    let guests = [];
 
     parties.forEach(party => {
       guests = guests.concat(party.guests);
-    })
-    
+    });
+
     res.json(guests);
-  })
-})
-  
-router.get('/guests/saved', (req, res) => {
+  });
+});
+
+router.get("/guests/saved", (req, res) => {
   Party.find({}, (err, parties) => {
     if (err) console.error(err);
 
-    let guests = []
+    let guests = [];
 
     parties.forEach(party => {
       if (party.rsvp_saved) {
         guests = guests.concat(party.guests);
       }
-    })
-    
+    });
+
     res.json(guests);
-  })
-})
-  
+  });
+});
+
 //Use our router configuration when we call /api
 app.use("/api", router);
 
