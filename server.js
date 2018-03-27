@@ -25,7 +25,7 @@ mongoose.connect(
   `mongodb://${user}:${pass}@ds117888.mlab.com:17888/wedding-management`
 );
 
-app.use(sslRedirect());
+// app.use(sslRedirect());
 
 // Setup static server
 app
