@@ -25,7 +25,7 @@ mongoose.connect(
   `mongodb://${user}:${pass}@ds117888.mlab.com:17888/wedding-management`
 );
 
-app.use(enforce.HTTPS({ trustProtoHeader: true }));
+if (app.settings.env !== 'development') app.use(enforce.HTTPS({ trustProtoHeader: true }));
 
 // Setup static server
 app

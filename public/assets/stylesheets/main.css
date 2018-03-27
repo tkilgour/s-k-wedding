@@ -61,7 +61,7 @@ body.home {
   body.admin,
   body.home {
     background-image: none !important;
-    background-color: #ccdfec !important;
+    background-color: #afcbe0 !important;
   }
 
   .grass {
@@ -119,6 +119,7 @@ p.small {
 
 .corner-box p {
   margin: 0;
+  font-size: 28px;
   padding: 5px;
 }
 
@@ -207,8 +208,12 @@ p.small {
   }
 
   .corner-box {
-    font-size: 18px;
+    font-size: 18px !important;
     margin: 15px;
+  }
+
+  .corner-box p {
+    font-size: 18px !important;
   }
 
   .pinecone {
@@ -332,9 +337,11 @@ a.ui.basic.button {
 }
 
 /* @media (min-width: 640px) { */
-#rsvp p {
+p, li, a.ui.button.primary {
   font-size: 16px;
+  line-height: 1.4285em !important;
 }
+
 
 .ui.checkbox.large {
   font-size: 16px !important;
@@ -388,7 +395,7 @@ a.ui.basic.button {
 }
 
 .large-text {
-  font-size: 16px;
+  font-size: 18px;
 }
 
 .home h2 {
