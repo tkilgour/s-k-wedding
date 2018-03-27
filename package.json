@@ -15,7 +15,7 @@
     "ejs": "^2.5.7",
     "express": "^4.16.3",
     "express-basic-auth": "^1.1.4",
-    "heroku-ssl-redirect": "0.0.4",
+    "express-sslify": "^1.2.0",
     "mongoose": "^5.0.10",
     "pushbullet": "^2.1.0"
   },
