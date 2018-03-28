@@ -61,12 +61,13 @@ body.home {
   body.admin,
   body.home {
     background-image: none !important;
-    background-color: #afcbe0 !important;
+    background-color: #bed5e4 !important;
   }
 
   .grass {
-    opacity: 0.7 !important;
+    display: none;
   }
+
 }
 
 body.rsvp,
@@ -159,7 +160,6 @@ p.small {
   left: 0;
   height: 100px;
   width: 200%;
-  opacity: 0.4;
 }
 
 .pinecone {
@@ -191,9 +191,9 @@ p.small {
  */
 
 @media (max-width: 640px) {
-  .grass {
+  /* .grass {
     height: 70px;
-  }
+  } */
 
   .name {
     font-size: 38px;
@@ -399,7 +399,7 @@ p, li, a.ui.button.primary {
 }
 
 .home h2 {
-  color: #456779;
+  color: #607e8b;
 }
 
 .home img {
