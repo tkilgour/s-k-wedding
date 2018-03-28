@@ -7,8 +7,9 @@ const path = require("path");
 const bodyParser = require("body-parser");
 const PushBullet = require("pushbullet");
 const basicAuth = require("express-basic-auth");
-const enforce = require('express-sslify');
+const enforce = require("express-sslify");
 const Party = require("./party_schema");
+const { exec } = require("child_process");
 
 //and create our instances
 const app = express();
@@ -25,7 +26,8 @@ mongoose.connect(
   `mongodb://${user}:${pass}@ds117888.mlab.com:17888/wedding-management`
 );
 
-if (app.settings.env !== 'development') app.use(enforce.HTTPS({ trustProtoHeader: true }));
+if (app.settings.env !== "development")
+  app.use(enforce.HTTPS({ trustProtoHeader: true }));
 
 // Setup static server
 app
@@ -47,6 +49,16 @@ app.use(
 
 // simulate server latency
 // app.use((req, res, next) => setTimeout(next, 1000))
+
+function backupDB() {
+  const date = new Date().toISOString();
+  exec(
+    `mongodump -h ds117888.mlab.com:17888 -d wedding-management -c parties -u ${user} -p ${pass} -o db-backup/${date}`,
+    (err, stdout, stderr) => {
+      if (err) console.error(err);
+    }
+  );
+}
 
 app
   // Home
@@ -110,10 +122,13 @@ router
       party.save(function(err) {
         if (err) res.send(err);
 
+        backupDB();
+
         pusher.note(
           process.env.PB_PHONE_TOKEN,
           `"${party.party_name}" updated their RSVP`
         );
+
         res.json({ saved: true });
       });
     });
