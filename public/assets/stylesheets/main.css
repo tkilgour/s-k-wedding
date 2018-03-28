@@ -67,7 +67,6 @@ body.home {
   .grass {
     display: none;
   }
-
 }
 
 body.rsvp,
@@ -337,11 +336,12 @@ a.ui.basic.button {
 }
 
 /* @media (min-width: 640px) { */
-p, li, a.ui.button.primary {
+p,
+li,
+a.ui.button.primary {
   font-size: 16px;
   line-height: 1.4285em !important;
 }
-
 
 .ui.checkbox.large {
   font-size: 16px !important;
@@ -368,6 +368,19 @@ p, li, a.ui.button.primary {
 .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
   opacity: 0;
 }
+
+.fade-list-enter-active,
+.fade-list-leave-active {
+  transition: all 0.2s;
+}
+
+.fade-list-enter,
+.fade-list-leave-to {
+  opacity: 0;
+  /* transform: translateY(-30px); */
+}
+
+/* Homepage */
 
 .sm-divider {
   border-top: 2px solid #ffffff;

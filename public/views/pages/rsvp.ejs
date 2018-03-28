@@ -30,52 +30,54 @@
             <p>We are very excited to have you be part of our wedding celebration! Please use the form below to send us your RSVP details. Everyone is welcome to camp overnight on the farm. We’ll serve a simple breakfast in the morning for the campers, but non-campers can attend as well. <strong>Questions?</strong> Email: <a href="mailto:hello@s-k.wedding">hello@s-k.wedding</a></p>
             <h3 class="ui header">Guests</h3>
               <div class="ui divider"></div>
-              <div v-for="(guest, i) in party.guests">
-              <div class="ui grid">
-                <div class="eight wide column">
-                  <div class="field">
-                    <label :for=i+"first_name">First Name</label>
-                    <input :id=i+"first_name" type="text" placeholder="First Name" v-model="guest.first_name">
-                  </div>
-                </div>
-                <div class="eight wide column">
-                  <div class="field">
-                    <label :for=i+"last_name">Last Name</label>
-                    <input :id=i+"last_name" type="text" placeholder="Last Name" v-model="guest.last_name">
-                  </div>
-                </div>
-                <div class="sixteen wide column">
-                  <div class="inline fields">
+              <transition-group name="fade-list" tag="div">
+                <div v-for="(guest, i) in party.guests" v-bind:key="i">
+                <div class="ui grid">
+                  <div class="eight wide column">
                     <div class="field">
-                      <div @click="guestAttendance(guest)" class="ui checkbox">
-                        <input :id=i+"attending" type="checkbox" v-model="guest.attending">
-                        <label :for=i+"attending">Attending</label>
-                      </div>
-                    </div>
-                    <div class="field">
-                      <div class="ui checkbox">
-                        <input :disabled="!guest.attending" :id=i+"camping" type="checkbox" v-model="guest.camping">
-                        <label :for=i+"camping">Camping</label>
-                      </div>
-                    </div>
-                    <div class="field">
-                      <div class="ui checkbox">
-                        <input :disabled="!guest.attending" :id=i+"breakfast" type="checkbox" v-model="guest.breakfast">
-                        <label :for=i+"breakfast">Breakfast</label>
-                      </div>
+                      <label :for=i+"first_name">First Name</label>
+                      <input :id=i+"first_name" type="text" placeholder="First Name" v-model="guest.first_name">
                     </div>
                   </div>
-                </div>
-                <div class="twelve wide column">                  
-                  <div class="field">
-                    <label :for=i+"dietary">Allergies/Dietary Restrictions</label>
-                    <input :disabled="!guest.attending" :id=i+"dietary" type="text" placeholder="Allergies/Dietary Restrictions" v-model="guest.dietary">
+                  <div class="eight wide column">
+                    <div class="field">
+                      <label :for=i+"last_name">Last Name</label>
+                      <input :id=i+"last_name" type="text" placeholder="Last Name" v-model="guest.last_name">
+                    </div>
                   </div>
-                  <button v-show="guest.manually_added" @click.prevent="removeGuest(i)" class="ui button negative basic" id="remove-guest">Remove Guest</button>
+                  <div class="sixteen wide column">
+                    <div class="inline fields">
+                      <div class="field">
+                        <div @click="guestAttendance(guest)" class="ui checkbox">
+                          <input :id=i+"attending" type="checkbox" v-model="guest.attending">
+                          <label :for=i+"attending">Attending</label>
+                        </div>
+                      </div>
+                      <div class="field">
+                        <div class="ui checkbox">
+                          <input :disabled="!guest.attending" :id=i+"camping" type="checkbox" v-model="guest.camping">
+                          <label :for=i+"camping">Camping</label>
+                        </div>
+                      </div>
+                      <div class="field">
+                        <div class="ui checkbox">
+                          <input :disabled="!guest.attending" :id=i+"breakfast" type="checkbox" v-model="guest.breakfast">
+                          <label :for=i+"breakfast">Breakfast</label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="twelve wide column">                  
+                    <div class="field">
+                      <label :for=i+"dietary">Allergies/Dietary Restrictions</label>
+                      <input :disabled="!guest.attending" :id=i+"dietary" type="text" placeholder="Allergies/Dietary Restrictions" v-model="guest.dietary">
+                    </div>
+                    <button v-show="guest.manually_added" @click.prevent="removeGuest(i)" class="ui button negative basic" id="remove-guest">Remove Guest</button>
+                  </div>
                 </div>
+                <div class="ui divider"></div>
               </div>
-              <div class="ui divider"></div>
-            </div>
+              </transition-group>
             <div class="lower-wrapper">
               <button @click.prevent="addGuest" v-show="!isDisabled" class="ui button primary basic" id="add-guest">Add a Guest</button>
               <h3 class="ui header">In-town Guests</h3>
