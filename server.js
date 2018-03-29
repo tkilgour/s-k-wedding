@@ -9,6 +9,7 @@ const PushBullet = require("pushbullet");
 const basicAuth = require("express-basic-auth");
 const enforce = require("express-sslify");
 const Party = require("./party_schema");
+const Backup = require("./backup_schema");
 const fs = require("fs");
 
 //and create our instances
@@ -51,20 +52,12 @@ app.use(
 // app.use((req, res, next) => setTimeout(next, 1000))
 
 function backupDB() {
-  console.log('backup script called…')
-  const date = new Date().toISOString();
-
   Party.find({}, (err, parties) => {
     if (err) console.error(err);
-    fs.writeFile(
-      `db-backup/${date}.json`,
-      JSON.stringify(parties),
-      { flag: "w" },
-      error => {
-        if (error) console.error(error);
-      }
-    );
-    console.log('backup script ran…')
+    
+    Backup.create({ backups: parties }, err => {
+      if (err) console.error(err);
+    });
   });
 }
 
