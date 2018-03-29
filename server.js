@@ -51,6 +51,7 @@ app.use(
 // app.use((req, res, next) => setTimeout(next, 1000))
 
 function backupDB() {
+  console.log('backup script called…')
   const date = new Date().toISOString();
 
   Party.find({}, (err, parties) => {
@@ -63,6 +64,7 @@ function backupDB() {
         if (error) console.error(error);
       }
     );
+    console.log('backup script ran…')
   });
 }
 
