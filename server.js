@@ -9,7 +9,7 @@ const PushBullet = require("pushbullet");
 const basicAuth = require("express-basic-auth");
 const enforce = require("express-sslify");
 const Party = require("./party_schema");
-const { exec } = require("child_process");
+const fs = require("fs");
 
 //and create our instances
 const app = express();
@@ -52,12 +52,18 @@ app.use(
 
 function backupDB() {
   const date = new Date().toISOString();
-  exec(
-    `mongodump -h ds117888.mlab.com:17888 -d wedding-management -c parties -u ${user} -p ${pass} -o db-backup/${date}`,
-    (err, stdout, stderr) => {
-      if (err) console.error(err);
-    }
-  );
+
+  Party.find({}, (err, parties) => {
+    if (err) console.error(err);
+    fs.writeFile(
+      `db-backup/${date}.json`,
+      JSON.stringify(parties),
+      { flag: "w" },
+      error => {
+        if (error) console.error(error);
+      }
+    );
+  });
 }
 
 app
