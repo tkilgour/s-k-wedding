@@ -41,7 +41,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 // TODO: change route to /admin before launch
 app.use(
-  "/",
+  "/admin",
   basicAuth({
     users: { admin: process.env.AUTH_PASS },
     challenge: true
