@@ -1,4 +1,6 @@
-[screenshot of sk-wedding](screenshot.png)
+# sk-wedding
+
+<p align="center"><img width="600" src="screenshot.png"/></div>
 
 *sk-wedding* is a lightweight RSVP application that I built for my wedding to allow us easily get specific information from our guests and see it in a simple dashboard.
 
